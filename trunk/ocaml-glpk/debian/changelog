@@ -1,3 +1,9 @@
+ocaml-glpk (O.1.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Samuel Mimram <samuel.mimram@ens-lyon.org>  Wed, 23 Jun 2004 19:57:08 +0200
+
 ocaml-glpk (0.1.0-1) unstable; urgency=low
 
   * Initial Release.

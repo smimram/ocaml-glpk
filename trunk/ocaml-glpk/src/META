@@ -1,5 +1,5 @@
 name="Shout"
-version="0.1.0"
+version="0.1.2"
 description="Ocaml bindings to GLPK"
 requires=""
 archive(byte) = "glpk.cma"

@@ -1,3 +1,6 @@
+0.1.2
+=====
+
 0.1.1 (23-06-2004)
 =====
 * Added functions: get_prob_name, get_obj_name, get_class, get_direction, get_row_name, get_col_name, warm_up.
