@@ -25,10 +25,10 @@
 	    <a href="example.ml">see how easy</a> it is to use the library (much more than in C),
 	  </li>
 	  <li>
-	    <a href="https://sourceforge.net/cvs/?group_id=107479">checkout the CVS</a>,
+	    <a href="http://sourceforge.net/cvs/?group_id=107479">checkout the CVS</a>,
 	  </li>
 	  <li>
-	    or <a href="https://sourceforge.net/project/showfiles.php?group_id=107479">download the library</a>.
+	    or <a href="http://sourceforge.net/project/showfiles.php?group_id=107479">download the library</a>.
 	  </li>
 	</ul>
       </object>

@@ -1,4 +1,4 @@
-RCP = rsync -rLtCP --delete --stats
+RCP = rsync -rLtCPz --delete --stats
 
 all: doc update
 
