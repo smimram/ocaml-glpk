@@ -285,6 +285,6 @@ CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
   CAMLparam2(blp, level);
   LPX *lp = lpx_of_block(blp);
   assert(0 <= Int_val(level) && Int_val(level) <= 3); //TODO: error
-  lpx_set_int_parm(LPX_K_MSGLEV, lp, Int_val(level));
+  lpx_set_int_parm(lp, LPX_K_MSGLEV, Int_val(level));
   CAMLreturn(Val_unit);
 }

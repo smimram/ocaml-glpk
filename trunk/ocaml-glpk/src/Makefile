@@ -19,12 +19,4 @@ uninstall: libuninstall
 
 update: uninstall install
 
-# TODO: remove
-test: byte
-	rm -f test.cmo
-	ocamlc dllglpk_stubs.so glpk.cmo test.ml -o test
-
-runtest: test
-	LD_LIBRARY_PATH=. ./test
-
 -include OCamlMakefile

@@ -23,7 +23,4 @@ install:
 uninstall:
 	make -C src uninstall
 
-runtest:
-	make -C src runtest
-
 .PHONY: doc
