@@ -62,8 +62,14 @@ static void raise_on_error(int ret)
     case LPX_E_SING:
       raise_constant(*caml_named_value("ocaml_glpk_exn_sing"));
 
+    case LPX_E_EMPTY:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_empty"));
+
+    case LPX_E_BADB:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_badb"));
+
     default:
-      break;
+      raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
     }
   assert(0); /* TODO */
 }
@@ -129,6 +135,25 @@ CAMLprim value ocaml_glpk_set_direction(value blp, value direction)
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value ocaml_glpk_get_direction(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  switch(lpx_get_obj_dir(lp))
+    {
+    case LPX_MIN:
+      CAMLreturn(Int_val(0));
+
+    case LPX_MAX:
+      CAMLreturn(Int_val(1));
+
+    default:
+      break;
+    }
+  assert(0);
+  CAMLreturn(Int_val(-1));
+}
+
 CAMLprim value ocaml_glpk_add_rows(value blp, value n)
 {
   CAMLparam2(blp, n);
@@ -143,6 +168,13 @@ CAMLprim value ocaml_glpk_set_row_name(value blp, value n, value name)
   LPX *lp = lpx_of_block(blp);
   lpx_set_row_name(lp, Int_val(n) + 1, String_val(name));
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_get_row_name(value blp, value n)
+{
+  CAMLparam2(blp, n);
+  LPX *lp = lpx_of_block(blp);
+  CAMLreturn(copy_string(lpx_get_row_name(lp, Int_val(n) + 1)));
 }
 
 static int auxvartype_table[] = {LPX_FR, LPX_LO, LPX_UP, LPX_DB, LPX_FX};
@@ -169,6 +201,13 @@ CAMLprim value ocaml_glpk_set_col_name(value blp, value n, value name)
   LPX *lp = lpx_of_block(blp);
   lpx_set_col_name(lp, Int_val(n) + 1, String_val(name));
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_get_col_name(value blp, value n)
+{
+  CAMLparam2(blp, n);
+  LPX *lp = lpx_of_block(blp);
+  CAMLreturn(copy_string(lpx_get_col_name(lp, Int_val(n) + 1)));
 }
 
 CAMLprim value ocaml_glpk_set_col_bounds(value blp, value n, value type, value lb, value ub)
@@ -271,10 +310,12 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
 }
 
 /* TODO */
+/*
 CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
 {
   
 }
+*/
 
 CAMLprim value ocaml_glpk_interior(value blp)
 {
@@ -292,6 +333,25 @@ CAMLprim value ocaml_glpk_set_class(value blp, value class)
   LPX *lp = lpx_of_block(blp);
   lpx_set_class(lp, class_table[Int_val(class)]);
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_get_class(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  switch(lpx_get_class(lp))
+    {
+    case LPX_LP:
+      CAMLreturn(Int_val(0));
+
+    case LPX_MIP:
+      CAMLreturn(Int_val(1));
+
+    default:
+      break;
+    }
+  assert(0);
+  CAMLreturn(Int_val(-1));
 }
 
 static int kind_table[] = {LPX_CV, LPX_IV};
@@ -319,5 +379,13 @@ CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
   if (Int_val(level) < 0 && Int_val(level) > 3)
     invalid_argument("level");
   lpx_set_int_parm(lp, LPX_K_MSGLEV, Int_val(level));
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_warm_up(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  raise_on_error(lpx_warm_up(lp));
   CAMLreturn(Val_unit);
 }

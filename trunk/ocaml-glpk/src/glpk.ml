@@ -38,6 +38,9 @@ exception No_dual_feasible_solution
 exception Iteration_limit
 exception Time_limit
 exception Solver_failure
+exception Empty
+exception Bad_basis
+exception Unknown_error
 
 let _ =
   Callback.register_exception "ocaml_glpk_exn_fault" Fault;
@@ -47,7 +50,10 @@ let _ =
   Callback.register_exception "ocaml_glpk_exn_nodfs" No_dual_feasible_solution;    
   Callback.register_exception "ocaml_glpk_exn_itlim" Iteration_limit;
   Callback.register_exception "ocaml_glpk_exn_tmlim" Time_limit;
-  Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure
+  Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure;
+  Callback.register_exception "ocaml_glpk_exn_empty" Empty;
+  Callback.register_exception "ocaml_glpk_exn_badb" Bad_basis;
+  Callback.register_exception "ocaml_glpk_exn_unkown" Unknown_error;
 
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"
 
@@ -61,15 +67,21 @@ external get_obj_name : lp -> string = "ocaml_glpk_get_obj_name"
 
 external set_direction : lp -> direction -> unit = "ocaml_glpk_set_direction"
 
+external get_direction : lp -> direction = "ocaml_glpk_get_direction"
+
 external add_rows : lp -> int -> unit = "ocaml_glpk_add_rows"
 
 external set_row_name : lp -> int -> string -> unit = "ocaml_glpk_set_row_name"
+
+external get_row_name : lp -> int -> string = "ocaml_glpk_get_row_name"
 
 external set_row_bounds : lp -> int -> aux_var_type -> float -> float -> unit = "ocaml_glpk_set_row_bounds"
 
 external add_columns : lp -> int -> unit = "ocaml_glpk_add_cols"
 
 external set_col_name : lp -> int -> string -> unit = "ocaml_glpk_set_col_name"
+
+external get_col_name : lp -> int -> string = "ocaml_glpk_get_col_name"
 
 external set_col_bounds : lp -> int -> aux_var_type -> float -> float -> unit = "ocaml_glpk_set_col_bounds"
 
@@ -129,8 +141,12 @@ external interior : lp -> unit = "ocaml_glpk_interior"
 
 external set_class : lp -> prob_class -> unit = "ocaml_glpk_set_class"
 
+external get_class : lp -> prob_class = "ocaml_glpk_get_class"
+
 external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind"
 
 external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
+
+external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
 external set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"

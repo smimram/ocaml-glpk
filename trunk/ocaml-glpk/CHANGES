@@ -1,6 +1,6 @@
 0.1.1
 =====
-* Added functions: get_prob_name, get_obj_name.
+* Added functions: get_prob_name, get_obj_name, get_class, get_direction, get_row_name, get_col_name, warm_up.
 * We are now raising exceptions on some errors (they are not all handled yet).
 
 0.1.0 (24-04-2004)
