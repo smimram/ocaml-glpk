@@ -26,6 +26,10 @@ type direction = Minimize | Maximize
 
 type aux_var_type = Free_var | Lower_bounded_var | Upper_bounded_var | Double_bounded_var | Fixed_var
 
+type prob_class = Linear_prog | Mixed_integer_prog
+
+type var_kind = Continuous_var | Integer_var
+
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"
 
 external set_prob_name : lp -> string -> unit = "ocaml_glpk_set_prob_name"
@@ -73,7 +77,6 @@ let make_problem dir zcoefs constr pbounds xbounds =
     for i = 0 to ((Array.length xbounds) - 1)
     do
       set_obj_coef lp i zcoefs.(i);
-      set_col_name lp i ("x" ^ (string_of_int i)); (* TODO: this does not seem to work *)
       match xbounds.(i) with
 	| lb, ub when lb = -.infinity && ub = infinity -> set_col_bounds lp i Free_var 0. 0.
 	| lb, ub when ub = infinity -> set_col_bounds lp i Lower_bounded_var lb 0.
@@ -86,7 +89,7 @@ let make_problem dir zcoefs constr pbounds xbounds =
 
 external get_num_rows : lp -> int = "ocaml_glpk_get_num_rows"
 
-let get_primal lp =
+let get_col_primals lp =
   let n = get_num_rows lp in
   let ans = Array.make n 0. in
     for i = 0 to (n - 1)
@@ -96,3 +99,16 @@ let get_primal lp =
     ans
 
 external scale_problem : lp -> unit = "ocaml_glpk_scale_problem"
+
+external unscale_problem : lp -> unit = "ocaml_glpk_unscale_problem"
+
+external interior : lp -> unit = "ocaml_glpk_interior"
+
+external set_class : lp -> prob_class -> unit = "ocaml_glpk_set_class"
+
+external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind"
+
+external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
+
+(* TODO: abstract type argument? *)
+external set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"

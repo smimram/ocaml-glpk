@@ -13,9 +13,9 @@ clean:
 
 distclean: clean
 
-doc:
+doc: byte
 	mkdir -p doc/html
-	ocamldoc -html -m A -keep-code -I src -d doc/html $(wildcard src/*.mli src/*.ml)
+	ocamldoc -html -m A -keep-code -I src -d doc/html src/glpk.mli src/glpk.ml
 
 install:
 	make -C src install

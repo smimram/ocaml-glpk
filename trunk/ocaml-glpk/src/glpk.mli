@@ -15,6 +15,16 @@ type direction = Minimize | Maximize
 (** Type of bounds of an auxiliary variable. *)
 type aux_var_type = Free_var | Lower_bounded_var | Upper_bounded_var | Double_bounded_var | Fixed_var
 
+(** Class of a problem. *)
+type prob_class =
+  | Linear_prog (** linear programming *)
+  | Mixed_integer_prog (** mixed integer programming *)
+
+(** Kind of a variable. *)
+type var_kind =
+  | Continuous_var (** continuous variable *)
+  | Integer_var (** integer variable *)
+
 (** Create a new linear programmation problem. *)
 val new_problem : unit -> lp
 
@@ -54,7 +64,7 @@ val set_obj_coef : lp -> int -> float -> unit
 (** Load a constraint matrix. *)
 val load_matrix : lp -> float array array -> unit
 
-(** Solve the LP problem using the simplex method. *)
+(** Solve an LP problem using the simplex method. *)
 val simplex : lp -> unit
 
 (** Retrieve objective value. *)
@@ -63,8 +73,34 @@ val get_obj_val : lp -> float
 (** Retrieve a row primal value. *)
 val get_col_primal : lp -> int -> float
 
+(** Retreive the number of rows. *)
 val get_num_rows : lp -> int
 
-val get_primal : lp -> float array
+(** Get the primal values of the whole column. *)
+val get_col_primals : lp -> float array
 
+(** Scale problem data. *)
 val scale_problem : lp -> unit
+
+(** Unscale problem data. *)
+val unscale_problem : lp -> unit
+
+(** Solve an LP problem using the primal-dual interior point method. *)
+val interior : lp -> unit
+
+(** Set the problem class. *)
+val set_class : lp -> prob_class -> unit
+
+(** Set column kind. *)
+val set_col_kind : lp -> int -> var_kind -> unit
+
+(** Solve a MIP proble using the branch-and-bound method. *)
+val branch_and_bound : lp -> unit
+
+(** Set the level of messages output by sover routines. The second argument might be:
+  - 0: no output
+  - 1: error message only
+  - 2: normal output
+  - 3: full output (includes informational messages)
+*)
+val set_message_level : lp -> int -> unit

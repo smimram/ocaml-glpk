@@ -217,3 +217,74 @@ CAMLprim value ocaml_glpk_scale_problem(value blp)
   lpx_scale_prob(lp);
   CAMLreturn(Val_unit);
 }
+
+CAMLprim value ocaml_glpk_unscale_problem(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  lpx_unscale_prob(lp);
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_interior(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  switch(lpx_interior(lp))
+    {
+    case LPX_E_OK:
+      CAMLreturn(Val_unit);
+      break;
+
+    default:
+      //TODO: handle errors
+      assert(0);
+    };
+  CAMLreturn(Val_unit);
+}
+
+static int class_table[] = {LPX_LP, LPX_MIP};
+
+CAMLprim value ocaml_glpk_set_class(value blp, value class)
+{
+  CAMLparam2(blp, class);
+  LPX *lp = lpx_of_block(blp);
+  lpx_set_class(lp, class_table[Int_val(class)]);
+  CAMLreturn(Val_unit);
+}
+
+static int kind_table[] = {LPX_CV, LPX_IV};
+
+CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
+{
+  CAMLparam3(blp, n, kind);
+  LPX *lp = lpx_of_block(blp);
+  lpx_set_col_kind(lp, Int_val(n), kind_table[Int_val(kind)]);
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_integer(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  switch(lpx_integer(lp))
+    {
+    case LPX_E_OK:
+      CAMLreturn(Val_unit);
+      break;
+
+    default:
+      //TODO: handle errors
+      assert(0);
+    };
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
+{
+  CAMLparam2(blp, level);
+  LPX *lp = lpx_of_block(blp);
+  assert(0 <= Int_val(level) && Int_val(level) <= 3); //TODO: error
+  lpx_set_int_parm(LPX_K_MSGLEV, lp, Int_val(level));
+  CAMLreturn(Val_unit);
+}
