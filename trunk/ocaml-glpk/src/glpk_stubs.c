@@ -24,10 +24,49 @@
 #include <caml/memory.h>
 #include <caml/misc.h>
 #include <caml/mlvalues.h>
+#include <caml/fail.h>
+#include <caml/callback.h>
 
 #include <assert.h>
 
 #include <glpk.h>
+
+static void raise_on_error(int ret)
+{
+  switch(ret)
+    {
+    case LPX_E_OK:
+      return;
+
+    case LPX_E_FAULT:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_fault"));
+
+    case LPX_E_OBJLL:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_objll"));
+      
+    case LPX_E_OBJUL:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_objul"));
+
+    case LPX_E_NOPFS:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_nopfs"));
+
+    case LPX_E_NODFS:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_nodfs"));
+
+    case LPX_E_ITLIM:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_itlim"));
+
+    case LPX_E_TMLIM:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_tmlim"));
+
+    case LPX_E_SING:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_sing"));
+
+    default:
+      break;
+    }
+  assert(0); /* TODO */
+}
 
 static LPX* lpx_of_block(value block)
 {
@@ -58,12 +97,26 @@ CAMLprim value ocaml_glpk_set_prob_name(value blp, value name)
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value ocaml_glpk_get_prob_name(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  CAMLreturn(copy_string(lpx_get_prob_name(lp)));
+}
+
 CAMLprim value ocaml_glpk_set_obj_name(value blp, value name)
 {
   CAMLparam2(blp, name);
   LPX *lp = lpx_of_block(blp);
   lpx_set_obj_name(lp, String_val(name));
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_get_obj_name(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  CAMLreturn(copy_string(lpx_get_obj_name(lp)));
 }
 
 static int direction_table[] = {LPX_MIN, LPX_MAX};
@@ -151,7 +204,7 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   ar = (double*)malloc((i_dim * j_dim + 1) * sizeof(double));
   for(i = 0; i < i_dim; i++)
     {
-      //TODO: raise an error
+      /* TODO: raise an error */
       assert(Wosize_val(Field(matrix, i)) == j_dim * 2);
       for(j = 0; j < j_dim; j++)
 	{
@@ -173,16 +226,7 @@ CAMLprim value ocaml_glpk_simplex(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
-  switch(lpx_simplex(lp))
-    {
-    case LPX_E_OK:
-      CAMLreturn(Val_unit);
-      break;
-
-    default:
-      //TODO: handle errors
-      assert(0);
-    };
+  raise_on_error(lpx_simplex(lp));
   CAMLreturn(Val_unit);
 }
 
@@ -226,20 +270,17 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
   CAMLreturn(Val_unit);
 }
 
+/* TODO */
+CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
+{
+  
+}
+
 CAMLprim value ocaml_glpk_interior(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
-  switch(lpx_interior(lp))
-    {
-    case LPX_E_OK:
-      CAMLreturn(Val_unit);
-      break;
-
-    default:
-      //TODO: handle errors
-      assert(0);
-    };
+  raise_on_error(lpx_interior(lp));
   CAMLreturn(Val_unit);
 }
 
@@ -267,16 +308,7 @@ CAMLprim value ocaml_glpk_integer(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
-  switch(lpx_integer(lp))
-    {
-    case LPX_E_OK:
-      CAMLreturn(Val_unit);
-      break;
-
-    default:
-      //TODO: handle errors
-      assert(0);
-    };
+  raise_on_error(lpx_integer(lp));
   CAMLreturn(Val_unit);
 }
 
@@ -284,7 +316,8 @@ CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
 {
   CAMLparam2(blp, level);
   LPX *lp = lpx_of_block(blp);
-  assert(0 <= Int_val(level) && Int_val(level) <= 3); //TODO: error
+  if (Int_val(level) < 0 && Int_val(level) > 3)
+    invalid_argument("level");
   lpx_set_int_parm(lp, LPX_K_MSGLEV, Int_val(level));
   CAMLreturn(Val_unit);
 }

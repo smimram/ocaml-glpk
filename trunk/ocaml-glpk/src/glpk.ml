@@ -30,11 +30,34 @@ type prob_class = Linear_prog | Mixed_integer_prog
 
 type var_kind = Continuous_var | Integer_var
 
+exception Fault
+exception Lower_limit
+exception Upper_limit
+exception No_primal_feasible_solution
+exception No_dual_feasible_solution
+exception Iteration_limit
+exception Time_limit
+exception Solver_failure
+
+let _ =
+  Callback.register_exception "ocaml_glpk_exn_fault" Fault;
+  Callback.register_exception "ocaml_glpk_exn_objll" Lower_limit;
+  Callback.register_exception "ocaml_glpk_exn_objul" Upper_limit;
+  Callback.register_exception "ocaml_glpk_exn_nopfs" No_primal_feasible_solution;
+  Callback.register_exception "ocaml_glpk_exn_nodfs" No_dual_feasible_solution;    
+  Callback.register_exception "ocaml_glpk_exn_itlim" Iteration_limit;
+  Callback.register_exception "ocaml_glpk_exn_tmlim" Time_limit;
+  Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure
+
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"
 
 external set_prob_name : lp -> string -> unit = "ocaml_glpk_set_prob_name"
 
+external get_prob_name : lp -> string = "ocaml_glpk_get_prob_name"
+
 external set_obj_name : lp -> string -> unit = "ocaml_glpk_set_obj_name"
+
+external get_obj_name : lp -> string = "ocaml_glpk_get_obj_name"
 
 external set_direction : lp -> direction -> unit = "ocaml_glpk_set_direction"
 
@@ -110,5 +133,4 @@ external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind
 
 external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
 
-(* TODO: abstract type argument? *)
 external set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"
