@@ -1,5 +1,8 @@
 0.1.2
 =====
+* Put Val_int instead of Int_val in ocaml_glpk_get_direction and
+  ocaml_glpk_get_class and added a unit parameter to ocaml_glpk_new_prob
+  (thanks Mike Furr).
 
 0.1.1 (23-06-2004)
 =====

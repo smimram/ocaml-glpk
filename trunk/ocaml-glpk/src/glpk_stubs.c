@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330,
@@ -43,7 +43,7 @@ static void raise_on_error(int ret)
 
     case LPX_E_OBJLL:
       raise_constant(*caml_named_value("ocaml_glpk_exn_objll"));
-      
+
     case LPX_E_OBJUL:
       raise_constant(*caml_named_value("ocaml_glpk_exn_objul"));
 
@@ -88,9 +88,9 @@ static void finalize_lpx(value block)
   lpx_delete_prob(lp);
 }
 
-CAMLprim value ocaml_glpk_new_prob()
+CAMLprim value ocaml_glpk_new_prob(value unit)
 {
-  CAMLparam0();
+  CAMLparam1(unit);
   CAMLlocal1(block);
   LPX *lp = lpx_create_prob();
   block = alloc_final(2, finalize_lpx, 150, 1024);
@@ -145,16 +145,16 @@ CAMLprim value ocaml_glpk_get_direction(value blp)
   switch(lpx_get_obj_dir(lp))
     {
     case LPX_MIN:
-      CAMLreturn(Int_val(0));
+      CAMLreturn(Val_int(0));
 
     case LPX_MAX:
-      CAMLreturn(Int_val(1));
+      CAMLreturn(Val_int(1));
 
     default:
       break;
     }
   assert(0);
-  CAMLreturn(Int_val(-1));
+  CAMLreturn(Val_int(-1));
 }
 
 CAMLprim value ocaml_glpk_add_rows(value blp, value n)
@@ -345,16 +345,16 @@ CAMLprim value ocaml_glpk_get_class(value blp)
   switch(lpx_get_class(lp))
     {
     case LPX_LP:
-      CAMLreturn(Int_val(0));
+      CAMLreturn(Val_int(0));
 
     case LPX_MIP:
-      CAMLreturn(Int_val(1));
+      CAMLreturn(Val_int(1));
 
     default:
       break;
     }
   assert(0);
-  CAMLreturn(Int_val(-1));
+  CAMLreturn(Val_int(-1));
 }
 
 static int kind_table[] = {LPX_CV, LPX_IV};
