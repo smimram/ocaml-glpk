@@ -39,14 +39,21 @@ ul
 	margin: 0em;
 	margin-top: 0em;
 	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
+	padding-top: .15em;
+	padding-bottom: .15em;
 	padding-left: 2em;
 	padding-right: 0em;
 }
 
 li
 {
-	padding-bottom: .3em;
+	padding-top: .15em;
+	padding-bottom: .15em;
 	text-align: justify;
+}
+
+hr
+{
+	margin-top: .6em;
+	margin-bottom: .6em;
 }
