@@ -68,6 +68,9 @@ static void raise_on_error(int ret)
     case LPX_E_BADB:
       raise_constant(*caml_named_value("ocaml_glpk_exn_badb"));
 
+    case LPX_E_NOCONV:
+      raise_constant(*caml_named_value("ocaml_glpk_exn_noconv"));
+
     default:
       raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
     }

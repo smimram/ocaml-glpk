@@ -40,6 +40,7 @@ exception Time_limit
 exception Solver_failure
 exception Empty
 exception Bad_basis
+exception No_convergence
 exception Unknown_error
 
 let _ =
@@ -53,6 +54,7 @@ let _ =
   Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure;
   Callback.register_exception "ocaml_glpk_exn_empty" Empty;
   Callback.register_exception "ocaml_glpk_exn_badb" Bad_basis;
+  Callback.register_exception "ocaml_glpk_exn_noconv" No_convergence;
   Callback.register_exception "ocaml_glpk_exn_unkown" Unknown_error;
 
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"

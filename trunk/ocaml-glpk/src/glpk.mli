@@ -56,6 +56,9 @@ exception Iteration_limit
 (** Time limit exceeded. *)
 exception Time_limit
 
+(** Very slow convergence or divergence. *)
+exception No_convergence
+
 (** Failure of the solver (the current basis matrix got singular or ill-conditionned). *)
 exception Solver_failure
 
