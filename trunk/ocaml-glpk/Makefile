@@ -12,6 +12,7 @@ clean:
 	make -C src clean
 
 distclean: clean
+	rm -rf doc
 
 doc: byte
 	mkdir -p doc/html
