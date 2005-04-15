@@ -39,40 +39,40 @@ static void raise_on_error(int ret)
       return;
 
     case LPX_E_FAULT:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_fault"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_fault"));
 
     case LPX_E_OBJLL:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_objll"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_objll"));
 
     case LPX_E_OBJUL:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_objul"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_objul"));
 
     case LPX_E_NOPFS:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_nopfs"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_nopfs"));
 
     case LPX_E_NODFS:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_nodfs"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_nodfs"));
 
     case LPX_E_ITLIM:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_itlim"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_itlim"));
 
     case LPX_E_TMLIM:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_tmlim"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_tmlim"));
 
     case LPX_E_SING:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_sing"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_sing"));
 
     case LPX_E_EMPTY:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_empty"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_empty"));
 
     case LPX_E_BADB:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_badb"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_badb"));
 
     case LPX_E_NOCONV:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_noconv"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_noconv"));
 
     default:
-      raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
     }
   assert(0); /* TODO */
 }
@@ -93,7 +93,7 @@ CAMLprim value ocaml_glpk_new_prob(value unit)
   CAMLparam1(unit);
   CAMLlocal1(block);
   LPX *lp = lpx_create_prob();
-  block = alloc_final(2, finalize_lpx, 150, 1024);
+  block = caml_alloc_final(2, finalize_lpx, 150, 1024);
   Store_field(block, 1, (value)lp);
   CAMLreturn(block);
 }
@@ -110,7 +110,7 @@ CAMLprim value ocaml_glpk_get_prob_name(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
-  CAMLreturn(copy_string(lpx_get_prob_name(lp)));
+  CAMLreturn(caml_copy_string(lpx_get_prob_name(lp)));
 }
 
 CAMLprim value ocaml_glpk_set_obj_name(value blp, value name)
@@ -125,7 +125,7 @@ CAMLprim value ocaml_glpk_get_obj_name(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
-  CAMLreturn(copy_string(lpx_get_obj_name(lp)));
+  CAMLreturn(caml_copy_string(lpx_get_obj_name(lp)));
 }
 
 static int direction_table[] = {LPX_MIN, LPX_MAX};
@@ -177,7 +177,7 @@ CAMLprim value ocaml_glpk_get_row_name(value blp, value n)
 {
   CAMLparam2(blp, n);
   LPX *lp = lpx_of_block(blp);
-  CAMLreturn(copy_string(lpx_get_row_name(lp, Int_val(n) + 1)));
+  CAMLreturn(caml_copy_string(lpx_get_row_name(lp, Int_val(n) + 1)));
 }
 
 static int auxvartype_table[] = {LPX_FR, LPX_LO, LPX_UP, LPX_DB, LPX_FX};
@@ -210,7 +210,7 @@ CAMLprim value ocaml_glpk_get_col_name(value blp, value n)
 {
   CAMLparam2(blp, n);
   LPX *lp = lpx_of_block(blp);
-  CAMLreturn(copy_string(lpx_get_col_name(lp, Int_val(n) + 1)));
+  CAMLreturn(caml_copy_string(lpx_get_col_name(lp, Int_val(n) + 1)));
 }
 
 CAMLprim value ocaml_glpk_set_col_bounds(value blp, value n, value type, value lb, value ub)
@@ -285,7 +285,7 @@ CAMLprim value ocaml_glpk_get_obj_val(value blp)
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
   double ans = lpx_get_obj_val(lp);
-  CAMLreturn(copy_double(ans));
+  CAMLreturn(caml_copy_double(ans));
 }
 
 CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
@@ -293,7 +293,7 @@ CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
   CAMLparam2(blp, n);
   LPX *lp = lpx_of_block(blp);
   double ans = lpx_get_col_prim(lp, Int_val(n) + 1);
-  CAMLreturn(copy_double(ans));
+  CAMLreturn(caml_copy_double(ans));
 }
 
 CAMLprim value ocaml_glpk_get_num_rows(value blp)
@@ -388,7 +388,7 @@ CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
   CAMLparam2(blp, level);
   LPX *lp = lpx_of_block(blp);
   if (Int_val(level) < 0 && Int_val(level) > 3)
-    invalid_argument("level");
+    caml_invalid_argument("level");
   lpx_set_int_parm(lp, LPX_K_MSGLEV, Int_val(level));
   CAMLreturn(Val_unit);
 }

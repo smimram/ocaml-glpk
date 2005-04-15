@@ -16,7 +16,7 @@ distclean: clean
 
 doc: byte
 	mkdir -p doc/html
-	ocamldoc -html -m A -keep-code -I src -d doc/html src/glpk.mli src/glpk.ml
+	ocamldoc -html -m A -stars -I src -d doc/html src/glpk.mli src/glpk.ml
 
 dist: doc
 	VERSION="$(shell cat VERSION)"; \

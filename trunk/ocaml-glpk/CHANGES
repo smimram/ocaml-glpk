@@ -7,6 +7,7 @@
   Jeremy Dubreil).
 * Added the use_presolver function to get exception with simplex when there is
   no feasible solution.
+* Using caml namespace functions.
 
 0.1.1 (23-06-2004)
 =====

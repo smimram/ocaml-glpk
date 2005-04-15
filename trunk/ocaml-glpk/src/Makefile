@@ -4,9 +4,10 @@ SOURCES = glpk_stubs.c glpk.mli glpk.ml
 RESULT = glpk
 LIBINSTALL_FILES = $(wildcard *.mli *.cmi *.cma *.cmxa *.a *.so)
 CLIBS = glpk
-CFLAGS=-Wall -ansi
+CFLAGS = -Wall -ansi -DCAML_NAME_SPACE
+OCAMLDOCFLAGS = -stars
 
-ANNOTATE=yes
+ANNOTATE = yes
 
 all: byte
 
