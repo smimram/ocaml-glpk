@@ -19,6 +19,7 @@ let () =
 	     [| -.infinity, 100.; -.infinity, 600.; -.infinity, 300. |]
 	     [| 0., infinity; 0., infinity; 0., infinity|] in
     scale_problem lp;
+    use_presolver lp true;
     simplex lp;
     let prim = get_col_primals lp in
       Printf.printf "Z: %g    x0: %g    x1: %g    x2: %g\n%!" (get_obj_val lp) prim.(0) prim.(1) prim.(2)

@@ -1,7 +1,7 @@
 (*
   ocaml-glpk - OCaml bindings to glpk
   Copyright (C) 2004 Samuel Mimram
-  
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
@@ -48,7 +48,7 @@ let _ =
   Callback.register_exception "ocaml_glpk_exn_objll" Lower_limit;
   Callback.register_exception "ocaml_glpk_exn_objul" Upper_limit;
   Callback.register_exception "ocaml_glpk_exn_nopfs" No_primal_feasible_solution;
-  Callback.register_exception "ocaml_glpk_exn_nodfs" No_dual_feasible_solution;    
+  Callback.register_exception "ocaml_glpk_exn_nodfs" No_dual_feasible_solution;
   Callback.register_exception "ocaml_glpk_exn_itlim" Iteration_limit;
   Callback.register_exception "ocaml_glpk_exn_tmlim" Time_limit;
   Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure;
@@ -152,3 +152,5 @@ external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
 external set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"
+
+external use_presolver : lp -> bool -> unit = "ocaml_glpk_use_presolver"

@@ -94,7 +94,7 @@ CAMLprim value ocaml_glpk_new_prob(value unit)
   CAMLlocal1(block);
   LPX *lp = lpx_create_prob();
   block = alloc_final(2, finalize_lpx, 150, 1024);
-  Field(block, 1) = (value)lp;
+  Store_field(block, 1, (value)lp);
   CAMLreturn(block);
 }
 
@@ -236,7 +236,8 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   int i_dim = Wosize_val(matrix), j_dim;
   int *ia, *ja;
   double *ar;
-  int i, j;
+  double x;
+  int i, j, n;
 
   if (i_dim <= 0)
     CAMLreturn(Val_unit);
@@ -244,23 +245,30 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   ia = (int*)malloc((i_dim * j_dim + 1) * sizeof(int));
   ja = (int*)malloc((i_dim * j_dim + 1) * sizeof(int));
   ar = (double*)malloc((i_dim * j_dim + 1) * sizeof(double));
+  n = 1;
   for(i = 0; i < i_dim; i++)
     {
       /* TODO: raise an error */
       assert(Wosize_val(Field(matrix, i)) == j_dim * 2);
       for(j = 0; j < j_dim; j++)
 	{
-	  ia[i * j_dim + j + 1] = i + 1;
-	  ja[i * j_dim + j + 1] = j + 1;
-	  ar[i * j_dim + j + 1] = Double_field(Field(matrix, i), j);
+	  x = Double_field(Field(matrix, i), j);
+	  /* We only want non null elements. */
+	  if (x != 0)
+	    {
+	      ia[n] = i + 1;
+	      ja[n] = j + 1;
+	      ar[n] = x;
+	      n++;
+	    }
 	}
     }
-  lpx_load_matrix(lp, i_dim * j_dim, ia, ja, ar);
+  lpx_load_matrix(lp, n - 1, ia, ja, ar);
 
   free(ia);
   free(ja);
   free(ar);
-  
+
   CAMLreturn(Val_unit);
 }
 
@@ -316,7 +324,7 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
 /*
 CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
 {
-  
+
 }
 */
 
@@ -390,5 +398,13 @@ CAMLprim value ocaml_glpk_warm_up(value blp)
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
   raise_on_error(lpx_warm_up(lp));
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_use_presolver(value blp, value b)
+{
+  CAMLparam2(blp, b);
+  LPX *lp = lpx_of_block(blp);
+  lpx_set_int_parm(lp, LPX_K_PRESOL, Int_val(b));
   CAMLreturn(Val_unit);
 }

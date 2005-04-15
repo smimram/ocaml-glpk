@@ -6,9 +6,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR = $(CURDIR)/debian/tmp/usr/lib/ocaml/3.07
-
-CFLAGS = -Wall
+DESTDIR = $(CURDIR)/debian/tmp/$(shell ocamlc -where)
+CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -39,6 +38,7 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
+	-$(MAKE) -C examples clean
 	rm -f config.log config.status
 
 	dh_clean 

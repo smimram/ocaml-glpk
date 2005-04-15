@@ -65,6 +65,7 @@ exception Solver_failure
 (** Unknown error (this exception should disappear in future versions). *)
 exception Unknown_error
 
+      
 (** {1 Functions} *)
 
 (** {2 Creating, defining and retreiving parameters of problems} *)
@@ -135,6 +136,7 @@ val set_obj_coef : lp -> int -> float -> unit
 (** Load a constraint matrix. *)
 val load_matrix : lp -> float array array -> unit
 
+                                               
 (** {2 Solving problems and retreiving solutions} *)
 
 (** Scale problem data. *)
@@ -146,7 +148,9 @@ val unscale_problem : lp -> unit
 (** Warm up the LP basis for the specified problem object using current statuses assigned to rows and columns. *)
 val warm_up : lp -> unit
 
-(** Solve an LP problem using the simplex method. *)
+(** Solve an LP problem using the simplex method. You must use builtin presolver
+  * (see [use_presolver]) to get an exception if the problem has no feasible
+  * solution. *)
 val simplex : lp -> unit
 
 (** Solve an LP problem using the primal-dual interior point method. *)
@@ -164,6 +168,7 @@ val get_col_primal : lp -> int -> float
 (** Get the primal values of the whole column. *)
 val get_col_primals : lp -> float array
 
+                              
 (** {2 Setting parameters of the solver} *)
 
 (** Set the level of messages output by sover routines. The second argument might be:
@@ -174,4 +179,8 @@ val get_col_primals : lp -> float array
 *)
 val set_message_level : lp -> int -> unit
 
+(** Use the builtin LP-presolver in [simplex]. *)
+val use_presolver : lp -> bool -> unit
+
+                                    
 (** {1 Loading / saving problems} *)

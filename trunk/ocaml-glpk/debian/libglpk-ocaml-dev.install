@@ -1,4 +1,4 @@
-usr/lib/ocaml/3.07/glpk/META
-usr/lib/ocaml/3.07/glpk/*.a
-usr/lib/ocaml/3.07/glpk/*.cm*
-usr/lib/ocaml/3.07/glpk/*.ml*
+usr/lib/ocaml/3.08.3/glpk/META
+usr/lib/ocaml/3.08.3/glpk/*.a
+usr/lib/ocaml/3.08.3/glpk/*.cm*
+usr/lib/ocaml/3.08.3/glpk/*.ml*
