@@ -1,8 +1,8 @@
 (**
-  Direct translation of the example of glpk's reference manual.
-
-  @author Samuel Mimram
-*)
+  * Direct translation of the example of glpk's reference manual.
+  *
+  * @author Samuel Mimram
+  *)
 
 (* $Id$ *)
 

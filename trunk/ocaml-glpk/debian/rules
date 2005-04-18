@@ -7,7 +7,7 @@
 #export DH_VERBOSE=1
 
 DESTDIR = $(CURDIR)/debian/tmp/$(shell ocamlc -where)
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -fPIC
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -28,6 +28,7 @@ build-stamp: configure-stamp
 
 	$(MAKE)
 	if [ -x /usr/bin/ocamlopt ]; then $(MAKE) opt; fi
+	$(MAKE) doc
 
 	touch build-stamp
 
@@ -36,7 +37,6 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
 	-$(MAKE) -C examples clean
 	rm -f config.log config.status
@@ -50,9 +50,7 @@ install: build
 	dh_installdirs
 
 	mkdir -p $(DESTDIR)
-	$(MAKE) install OCAMLFIND_DESTDIR=$(DESTDIR) OCAMLFIND_LDCONF=dummy;
-	dh_install --sourcedir=debian/tmp
-	$(MAKE) doc
+	$(MAKE) install OCAMLFIND_DESTDIR=$(DESTDIR) OCAMLFIND_LDCONF=ignore;
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -65,23 +63,12 @@ binary-arch: build install
 	dh_installchangelogs CHANGES
 	dh_installdocs
 	dh_installexamples
-#	dh_install
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
+	dh_install --sourcedir=debian/tmp
 	dh_installman
 	dh_link
 	dh_strip
 	dh_compress
 	dh_fixperms
-#	dh_perl
-#	dh_python
 	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps

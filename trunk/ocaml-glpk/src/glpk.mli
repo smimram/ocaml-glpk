@@ -183,8 +183,5 @@ val get_col_primals : lp -> float array
 *)
 val set_message_level : lp -> int -> unit
 
-(** Use the builtin LP-presolver in [simplex]. *)
+(** Use the builtin LP-presolver in [simplex]? *)
 val use_presolver : lp -> bool -> unit
-
-                                    
-(** {1 Loading / saving problems} *)
