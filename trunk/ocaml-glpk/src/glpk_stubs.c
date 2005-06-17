@@ -371,7 +371,7 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
 {
   CAMLparam3(blp, n, kind);
   LPX *lp = lpx_of_block(blp);
-  lpx_set_col_kind(lp, Int_val(n), kind_table[Int_val(kind)]);
+  lpx_set_col_kind(lp, Int_val(n) + 1, kind_table[Int_val(kind)]);
   CAMLreturn(Val_unit);
 }
 
