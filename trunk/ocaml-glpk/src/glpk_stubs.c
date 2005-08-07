@@ -34,7 +34,7 @@
 static void raise_on_error(int ret)
 {
   switch(ret)
-    {
+  {
     case LPX_E_OK:
       return;
 
@@ -73,7 +73,7 @@ static void raise_on_error(int ret)
 
     default:
       caml_raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
-    }
+  }
   assert(0); /* TODO */
 }
 
@@ -143,7 +143,7 @@ CAMLprim value ocaml_glpk_get_direction(value blp)
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
   switch(lpx_get_obj_dir(lp))
-    {
+  {
     case LPX_MIN:
       CAMLreturn(Val_int(0));
 
@@ -152,7 +152,7 @@ CAMLprim value ocaml_glpk_get_direction(value blp)
 
     default:
       break;
-    }
+  }
   assert(0);
   CAMLreturn(Val_int(-1));
 }
@@ -247,22 +247,22 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   ar = (double*)malloc((i_dim * j_dim + 1) * sizeof(double));
   n = 1;
   for(i = 0; i < i_dim; i++)
+  {
+    /* TODO: raise an error */
+    assert(Wosize_val(Field(matrix, i)) == j_dim * 2);
+    for(j = 0; j < j_dim; j++)
     {
-      /* TODO: raise an error */
-      assert(Wosize_val(Field(matrix, i)) == j_dim * 2);
-      for(j = 0; j < j_dim; j++)
-	{
-	  x = Double_field(Field(matrix, i), j);
-	  /* We only want non null elements. */
-	  if (x != 0)
-	    {
-	      ia[n] = i + 1;
-	      ja[n] = j + 1;
-	      ar[n] = x;
-	      n++;
-	    }
-	}
+      x = Double_field(Field(matrix, i), j);
+      /* We only want non null elements. */
+      if (x != 0)
+      {
+        ia[n] = i + 1;
+        ja[n] = j + 1;
+        ar[n] = x;
+        n++;
+      }
     }
+  }
   lpx_load_matrix(lp, n - 1, ia, ja, ar);
 
   free(ia);
@@ -322,11 +322,11 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
 
 /* TODO */
 /*
-CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
-{
+   CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
+   {
 
-}
-*/
+   }
+   */
 
 CAMLprim value ocaml_glpk_interior(value blp)
 {
@@ -351,7 +351,7 @@ CAMLprim value ocaml_glpk_get_class(value blp)
   CAMLparam1(blp);
   LPX *lp = lpx_of_block(blp);
   switch(lpx_get_class(lp))
-    {
+  {
     case LPX_LP:
       CAMLreturn(Val_int(0));
 
@@ -360,7 +360,7 @@ CAMLprim value ocaml_glpk_get_class(value blp)
 
     default:
       break;
-    }
+  }
   assert(0);
   CAMLreturn(Val_int(-1));
 }
