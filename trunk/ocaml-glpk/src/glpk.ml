@@ -126,8 +126,10 @@ let make_problem dir zcoefs constr pbounds xbounds =
 
 external get_num_rows : lp -> int = "ocaml_glpk_get_num_rows"
 
+external get_num_cols : lp -> int = "ocaml-glpk_get_num_cols"
+
 let get_col_primals lp =
-  let n = get_num_rows lp in
+  let n = get_num_cols lp in
   let ans = Array.make n 0. in
     for i = 0 to (n - 1)
     do

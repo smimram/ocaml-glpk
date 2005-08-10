@@ -1,7 +1,9 @@
 0.1.3 (unreleased)
 =====
-* The license is now LGPL + linking exception.
 * Corrected forgotten indice shifting in set_col_kind (thanks Pierre Lemaire).
+* Corrected the get_col_primals function, the returned array's length is now the
+  number of columns of the lp (found by Erick Matsen).
+* Added the get_num_cols function.
 
 0.1.2 (18-04-2005)
 =====

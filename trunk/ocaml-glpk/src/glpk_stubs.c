@@ -304,6 +304,14 @@ CAMLprim value ocaml_glpk_get_num_rows(value blp)
   CAMLreturn(Val_int(ans));
 }
 
+CAMLprim value ocaml_glpk_get_num_cols(value blp)
+{
+  CAMLparam1(blp);
+  LPX *lp = lpx_of_block(blp);
+  int ans = lpx_get_num_cols(lp);
+  CAMLreturn(Val_int(ans));
+}
+
 CAMLprim value ocaml_glpk_scale_problem(value blp)
 {
   CAMLparam1(blp);

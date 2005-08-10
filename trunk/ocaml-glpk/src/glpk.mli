@@ -122,6 +122,9 @@ val set_row_bounds : lp -> int -> aux_var_type -> float -> float -> unit
 (** Add columns. *)
 val add_columns : lp -> int -> unit
 
+(** Retreive the number of columns. *)
+val get_num_cols : lp -> int
+
 (** Set the name of a column. *)
 val set_col_name : lp -> int -> string -> unit
 
@@ -166,10 +169,10 @@ val branch_and_bound : lp -> unit
 (** Retrieve objective value. *)
 val get_obj_val : lp -> float
 
-(** Retrieve a row primal value. *)
+(** Get the primal value of the structural variable associated with a column. *)
 val get_col_primal : lp -> int -> float
 
-(** Get the primal values of the whole column. *)
+(** Get the primal values of the structural variables associated with each columns. *)
 val get_col_primals : lp -> float array
 
                               

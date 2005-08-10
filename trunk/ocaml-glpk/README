@@ -34,6 +34,9 @@ me (or send a patch) and I'll add it as soon as possible.
 
 License
 =======
+The license of this library is the GPL like the original glpk library. It is
+therefore useless to ask me to change the license, I can't do that.
+
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
