@@ -94,7 +94,9 @@ CAMLprim value ocaml_glpk_new_prob(value unit)
   CAMLlocal1(block);
   LPX *lp = lpx_create_prob();
   block = caml_alloc_final(2, finalize_lpx, 150, 1024);
-  Store_field(block, 1, (value)lp);
+  /* Store_field(block, 1, (value)lp); */
+  /* Cf. http://pauillac.inria.fr/caml/caml-list/2311.html ??? */
+  Field(block, 1) = (value)lp;
   CAMLreturn(block);
 }
 
