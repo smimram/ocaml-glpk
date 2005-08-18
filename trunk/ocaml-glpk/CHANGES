@@ -4,6 +4,8 @@
 * Corrected the get_col_primals function, the returned array's length is now the
   number of columns of the lp (found by Erick Matsen).
 * Added the get_num_cols function.
+* Using Field instead of Store_field in ocaml_glpk_new_prob since I use
+  caml_alloc_final.
 
 0.1.2 (18-04-2005)
 =====

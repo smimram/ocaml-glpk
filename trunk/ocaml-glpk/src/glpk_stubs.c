@@ -77,10 +77,13 @@ static void raise_on_error(int ret)
   assert(0); /* TODO */
 }
 
+/*
 static LPX* lpx_of_block(value block)
 {
   return (LPX*)Field(block, 1);
 }
+*/
+#define lpx_of_block(block) (LPX*)Field(block, 1)
 
 static void finalize_lpx(value block)
 {
@@ -95,7 +98,7 @@ CAMLprim value ocaml_glpk_new_prob(value unit)
   LPX *lp = lpx_create_prob();
   block = caml_alloc_final(2, finalize_lpx, 150, 1024);
   /* Store_field(block, 1, (value)lp); */
-  /* Cf. http://pauillac.inria.fr/caml/caml-list/2311.html ??? */
+  /* Cf. http://pauillac.inria.fr/caml/caml-list/2320.html */
   Field(block, 1) = (value)lp;
   CAMLreturn(block);
 }
