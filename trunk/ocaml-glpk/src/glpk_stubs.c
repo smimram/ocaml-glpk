@@ -87,12 +87,12 @@ static void finalize_lpx(value block)
 
 static struct custom_operations lpx_ops =
 {
-	"ocaml_glpk_lpx",
-	finalize_lpx,
-	custom_compare_default,
-	custom_hash_default,
-	custom_serialize_default,
-	custom_deserialize_default
+  "ocaml_glpk_lpx",
+  finalize_lpx,
+  custom_compare_default,
+  custom_hash_default,
+  custom_serialize_default,
+  custom_deserialize_default
 };
 
 CAMLprim value ocaml_glpk_new_prob(value unit)
