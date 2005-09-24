@@ -69,7 +69,7 @@ exception Solver_failure
 (** Unknown error (this exception should disappear in future versions). *)
 exception Unknown_error
 
-      
+
 (** {1 Functions} *)
 
 (** {2 Creating, defining and retreiving parameters of problems} *)
@@ -143,7 +143,7 @@ val set_obj_coef : lp -> int -> float -> unit
 (** Load a constraint matrix. *)
 val load_matrix : lp -> float array array -> unit
 
-                                               
+
 (** {2 Solving problems and retreiving solutions} *)
 
 (** Scale problem data. *)
@@ -172,10 +172,10 @@ val get_obj_val : lp -> float
 (** Get the primal value of the structural variable associated with a column. *)
 val get_col_primal : lp -> int -> float
 
-(** Get the primal values of the structural variables associated with each columns. *)
+(** Get the primal values of the structural variables associated with each column. *)
 val get_col_primals : lp -> float array
 
-                              
+
 (** {2 Setting parameters of the solver} *)
 
 (** Set the level of messages output by sover routines. The second argument might be:
