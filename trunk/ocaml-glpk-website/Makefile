@@ -1,4 +1,4 @@
-RCP = rsync -rLtCPz --delete --stats
+RCP = rsync -rLtCPz --delete --stats --exclude "access.log"
 
 all: doc update
 
