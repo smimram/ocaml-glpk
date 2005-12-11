@@ -6,6 +6,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+OCAMLABI := $(shell ocamlc -version)
+OFILES := $(patsubst %.in,%,$(wildcard debian/*.in))
+
 DESTDIR = $(CURDIR)/debian/tmp/$(shell ocamlc -where)
 CFLAGS = -Wall -g -fPIC
 
@@ -15,6 +18,9 @@ else
 	CFLAGS += -O2
 endif
 
+ocamlinit:
+	for f in $(OFILES); do sed -e 's/@OCamlABI@/$(OCAMLABI)/g' $$f.in > $$f; done
+
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
@@ -22,8 +28,8 @@ configure-stamp:
 	touch configure-stamp
 
 
-build: build-stamp
-build-stamp: configure-stamp 
+build: ocamlinit build-stamp
+build-stamp: configure-stamp
 	dh_testdir
 
 	$(MAKE)
@@ -41,16 +47,16 @@ clean:
 	-$(MAKE) -C examples clean
 	rm -f config.log config.status
 
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
+	dh_clean -k
 	dh_installdirs
 
 	mkdir -p $(DESTDIR)
-	$(MAKE) install OCAMLFIND_DESTDIR=$(DESTDIR) OCAMLFIND_LDCONF=ignore;
+	$(MAKE) install OCAMLFIND_DESTDIR=$(DESTDIR) OCAMLFIND_LDCONF=ignore
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -72,7 +78,7 @@ binary-arch: build install
 	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
-	dh_gencontrol
+	dh_gencontrol -- -VF:OCamlABI="$(OCAMLABI)"
 	dh_md5sums
 	dh_builddeb
 
