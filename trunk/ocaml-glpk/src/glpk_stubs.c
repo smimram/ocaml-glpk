@@ -291,7 +291,11 @@ CAMLprim value ocaml_glpk_get_obj_val(value blp)
 {
   CAMLparam1(blp);
   LPX *lp = Lpx_val(blp);
-  double ans = lpx_get_obj_val(lp);
+  double ans;
+  if (lpx_get_class(lp) == LPX_MIP)
+    ans = lpx_mip_obj_val(lp);
+  else
+    ans = lpx_get_obj_val(lp);
   CAMLreturn(caml_copy_double(ans));
 }
 
