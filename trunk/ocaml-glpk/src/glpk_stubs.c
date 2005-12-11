@@ -303,7 +303,12 @@ CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
 {
   CAMLparam2(blp, n);
   LPX *lp = Lpx_val(blp);
-  double ans = lpx_get_col_prim(lp, Int_val(n) + 1);
+  double ans;
+  /* TODO: is it the right thing to do? */
+  if (lpx_get_class(lp) == LPX_MIP)
+    ans = lpx_mip_col_val(lp, Int_val(n) + 1);
+  else
+    ans = lpx_get_col_prim(lp, Int_val(n) + 1);
   CAMLreturn(caml_copy_double(ans));
 }
 
@@ -341,11 +346,11 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
 
 /* TODO */
 /*
-   CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
-   {
+CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
+{
 
-   }
-   */
+}
+*/
 
 CAMLprim value ocaml_glpk_interior(value blp)
 {
