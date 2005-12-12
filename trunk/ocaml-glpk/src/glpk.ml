@@ -156,3 +156,7 @@ external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 external set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"
 
 external use_presolver : lp -> bool -> unit = "ocaml_glpk_use_presolver"
+
+external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
+
+external write_cplex : lp -> string -> unit = "ocaml_glpk_write_cplex"

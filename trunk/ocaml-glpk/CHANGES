@@ -2,6 +2,7 @@
 =====
 * Corrected get_obj_val to handle mip problems.
 * get_col_primal now return correct values for mip problems.
+* Added {read,write}_cplex functions.
 
 0.1.3 (24-09-2005)
 =====

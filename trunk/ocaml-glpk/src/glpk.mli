@@ -72,13 +72,22 @@ exception Unknown_error
 
 (** {1 Functions} *)
 
-(** {2 Creating, defining and retreiving parameters of problems} *)
+(** {2 Creating, reading and saving problems} *)
 
 (** Create a new linear programmation problem. *)
 val new_problem : unit -> lp
 
 (** [make_problem dir zcoefs constrs pbounds xbounds] creates the new linear programmation problem where Z = Sum_i [zcoefs.(i)] * x_ i should be optimized in the direction [dir] under the constraints [fst pbounds.(i)] <= p_i <= [snd pbounds.(i)] and [fst xbounds.(i)] <= x_i <= [snd xbounds.(i)] where p_i = Sum_j [constrs.(i).(j)] * x_j. The bounds may be [+] / [- infinity]. *)
 val make_problem : direction -> float array -> float array array -> (float * float) array -> (float * float) array -> lp
+
+(** Read problem data in CPLEX LP format from a file. *)
+val read_cplex : string -> lp
+
+(** Write prblem data in CPLEX LP format into a file. *)
+val write_cplex : lp -> string -> unit
+
+
+(** {2 Setting and retreiving paramters of a problem} *)
 
 (** Set the problem name. *)
 val set_prob_name : lp -> string -> unit

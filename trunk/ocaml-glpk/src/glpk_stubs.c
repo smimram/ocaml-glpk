@@ -95,14 +95,20 @@ static struct custom_operations lpx_ops =
   custom_deserialize_default
 };
 
+/* Note: it does the CAMLlocal. */
+static value new_blp(LPX* lp)
+{
+  CAMLlocal1(block);
+  block = caml_alloc_custom(&lpx_ops, sizeof(LPX*), 0, 1);
+  Lpx_val(block) = lp;
+  return(block);
+}
+
 CAMLprim value ocaml_glpk_new_prob(value unit)
 {
   CAMLparam1(unit);
-  CAMLlocal1(block);
   LPX *lp = lpx_create_prob();
-  block = caml_alloc_custom(&lpx_ops, sizeof(LPX*), 0, 1);
-  Lpx_val(block) = lp;
-  CAMLreturn(block);
+  CAMLreturn(new_blp(lp));
 }
 
 CAMLprim value ocaml_glpk_set_prob_name(value blp, value name)
@@ -430,5 +436,22 @@ CAMLprim value ocaml_glpk_use_presolver(value blp, value b)
   CAMLparam2(blp, b);
   LPX *lp = Lpx_val(blp);
   lpx_set_int_parm(lp, LPX_K_PRESOL, Int_val(b));
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_read_cplex(value fname)
+{
+  CAMLparam1(fname);
+  LPX *lp = lpx_read_cpxlp(String_val(fname));
+  if (!lp)
+    caml_failwith("Error while reading data in CPLEX LP format.");
+  CAMLreturn(new_blp(lp));
+}
+
+CAMLprim value ocaml_glpk_write_cplex(value blp, value fname)
+{
+  CAMLparam2(blp, fname);
+  if (lpx_write_cpxlp(Lpx_val(blp), String_val(fname)))
+    caml_failwith("Error while writing data in CPLEX LP format.");
   CAMLreturn(Val_unit);
 }
