@@ -1,4 +1,4 @@
-0.1.4 (unreleased)
+0.1.4 (07-04-2006)
 =====
 * Corrected get_obj_val to handle mip problems.
 * get_col_primal now return correct values for mip problems.
