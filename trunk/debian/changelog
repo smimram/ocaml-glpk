@@ -1,6 +1,6 @@
 ocaml-glpk (0.1.4-1) unstable; urgency=low
 
-  * Updated to OCaml 3.09.0.
+  * Updated to OCaml 3.09.1.
   * No longer hardcoding OCaml's ABI.
   * Added a watch file.
 
