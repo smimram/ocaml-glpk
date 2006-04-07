@@ -22,7 +22,7 @@ dist: doc
 	VERSION="$(shell cat VERSION)"; \
 		mkdir $(PROGNAME)-$$VERSION; \
 		cp -r --parents $(DISTFILES) $(PROGNAME)-$$VERSION; \
-		tar zcvf $(PROGNAME)-$$VERSION.tar.gz $(PROGNAME)-$$VERSION; \
+		tar zcvf ../$(PROGNAME)-$$VERSION.tar.gz $(PROGNAME)-$$VERSION; \
 		rm -rf $(PROGNAME)-$$VERSION
 
 .PHONY: doc
