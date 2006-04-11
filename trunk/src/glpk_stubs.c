@@ -413,16 +413,6 @@ CAMLprim value ocaml_glpk_integer(value blp)
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value ocaml_glpk_set_message_level(value blp, value level)
-{
-  CAMLparam2(blp, level);
-  LPX *lp = Lpx_val(blp);
-  if (Int_val(level) < 0 && Int_val(level) > 3)
-    caml_invalid_argument("level");
-  lpx_set_int_parm(lp, LPX_K_MSGLEV, Int_val(level));
-  CAMLreturn(Val_unit);
-}
-
 CAMLprim value ocaml_glpk_warm_up(value blp)
 {
   CAMLparam1(blp);
@@ -438,6 +428,24 @@ CAMLprim value ocaml_glpk_use_presolver(value blp, value b)
   lpx_set_int_parm(lp, LPX_K_PRESOL, Int_val(b));
   CAMLreturn(Val_unit);
 }
+
+#define BIND_INT_PARAM(name, param) \
+CAMLprim value ocaml_glpk_get_##name(value blp) \
+{ \
+  CAMLparam1(blp); \
+  LPX *lp = Lpx_val(blp); \
+  CAMLreturn(Val_int(lpx_get_int_param(lp, param))); \
+} \
+CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
+{ \
+  CAMLparam2(blp, n); \
+  LPX *lp = Lpx_val(blp); \
+  lpx_set_int_param(lp, param, Int_val(n)); \
+  CAMLreturn(Val_unit); \
+}
+
+BIND_INT_PARAM(message_level, LPX_K_MSGLEV);
+BIND_INT_PARAM(iteration_count, LPX_K_PRESOL);
 
 CAMLprim value ocaml_glpk_read_cplex(value fname)
 {

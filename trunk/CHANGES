@@ -1,5 +1,6 @@
 0.1.5 (unreleased)
 =====
+* Added set/get_simplex_iteration_count.
 
 0.1.4 (07-04-2006)
 =====

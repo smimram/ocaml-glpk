@@ -1,5 +1,6 @@
 (**
-  * OCaml bindings to glpk. Please see the glpk manual for further explanations on the semantic of functions.
+  * OCaml bindings to glpk. Please see the glpk manual for further explanations 
+  * on the semantics of functions.
   *
   * Warning: contrarily to the C version of glpk, all indexes are 0-based.
   *
@@ -197,3 +198,9 @@ val set_message_level : lp -> int -> unit
 
 (** Use the builtin LP-presolver in [simplex]? *)
 val use_presolver : lp -> bool -> unit
+
+(** This number is incremented after each simplex iteration. *)
+val get_simplex_iteration_count : lp -> unit
+
+(** Initialize the simplex iteration counter. *)
+val set_simplex_iteration_count : lp -> int -> unit
