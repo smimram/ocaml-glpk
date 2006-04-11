@@ -161,7 +161,10 @@ external write_cplex : lp -> string -> unit = "ocaml_glpk_write_cplex"
 
 external set_simplex_iteration_count : lp -> int -> unit = "ocaml_glpk_set_iteration_count"
 
-external get_simplex_iteration_count : lp -> unit = "ocaml_glpk_get_iteration_count"
+let reset_simplex_iteration_count lp =
+  set_simplex_iteration_count lp 0
+
+external get_simplex_iteration_count : lp -> int = "ocaml_glpk_get_iteration_count"
 
 external _set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"
 

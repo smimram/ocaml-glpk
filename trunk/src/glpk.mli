@@ -199,8 +199,11 @@ val set_message_level : lp -> int -> unit
 (** Use the builtin LP-presolver in [simplex]? *)
 val use_presolver : lp -> bool -> unit
 
-(** This number is incremented after each simplex iteration. *)
-val get_simplex_iteration_count : lp -> unit
-
 (** Initialize the simplex iteration counter. *)
 val set_simplex_iteration_count : lp -> int -> unit
+
+(** Reset the simplex iteration counter. *)
+val reset_simplex_iteration_count : lp -> unit
+
+(** This number is incremented after each simplex iteration. *)
+val get_simplex_iteration_count : lp -> int

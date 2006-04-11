@@ -434,13 +434,13 @@ CAMLprim value ocaml_glpk_get_##name(value blp) \
 { \
   CAMLparam1(blp); \
   LPX *lp = Lpx_val(blp); \
-  CAMLreturn(Val_int(lpx_get_int_param(lp, param))); \
+  CAMLreturn(Val_int(lpx_get_int_parm(lp, param))); \
 } \
 CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
 { \
   CAMLparam2(blp, n); \
   LPX *lp = Lpx_val(blp); \
-  lpx_set_int_param(lp, param, Int_val(n)); \
+  lpx_set_int_parm(lp, param, Int_val(n)); \
   CAMLreturn(Val_unit); \
 }
 
