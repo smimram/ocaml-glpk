@@ -421,14 +421,6 @@ CAMLprim value ocaml_glpk_warm_up(value blp)
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value ocaml_glpk_use_presolver(value blp, value b)
-{
-  CAMLparam2(blp, b);
-  LPX *lp = Lpx_val(blp);
-  lpx_set_int_parm(lp, LPX_K_PRESOL, Int_val(b));
-  CAMLreturn(Val_unit);
-}
-
 #define BIND_INT_PARAM(name, param) \
 CAMLprim value ocaml_glpk_get_##name(value blp) \
 { \
@@ -444,8 +436,37 @@ CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
   CAMLreturn(Val_unit); \
 }
 
+#define BIND_REAL_PARAM(name, param) \
+CAMLprim value ocaml_glpk_get_##name(value blp) \
+{ \
+  CAMLparam1(blp); \
+  LPX *lp = Lpx_val(blp); \
+  CAMLreturn(caml_copy_double(lpx_get_real_parm(lp, param))); \
+} \
+CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
+{ \
+  CAMLparam2(blp, n); \
+  LPX *lp = Lpx_val(blp); \
+  lpx_set_real_parm(lp, param, Double_val(n)); \
+  CAMLreturn(Val_unit); \
+}
+
 BIND_INT_PARAM(message_level, LPX_K_MSGLEV);
-BIND_INT_PARAM(iteration_count, LPX_K_PRESOL);
+BIND_INT_PARAM(scaling, LPX_K_SCALE);
+BIND_INT_PARAM(use_dual_simplex, LPX_K_DUAL);
+BIND_INT_PARAM(pricing, LPX_K_PRICE);
+BIND_REAL_PARAM(relaxation, LPX_K_RELAX);
+/*
+BIND_REAL_PARAM(relative_tolerance, LPX_K_TOLBND);
+BIND_REAL_PARAM(absolute_tolerance, LPX_K_TOLDJ);
+*/
+BIND_INT_PARAM(solution_rounding, LPX_K_ROUND);
+BIND_INT_PARAM(iteration_limit, LPX_K_ITLIM);
+BIND_INT_PARAM(iteration_count, LPX_K_ITCNT);
+BIND_REAL_PARAM(time_limit, LPX_K_TMLIM);
+BIND_INT_PARAM(branching_heuristic, LPX_K_BRANCH);
+BIND_INT_PARAM(backtracking_heuristic, LPX_K_BTRACK);
+BIND_INT_PARAM(use_presolver, LPX_K_PRESOL);
 
 CAMLprim value ocaml_glpk_read_cplex(value fname)
 {

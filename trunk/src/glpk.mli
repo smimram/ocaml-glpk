@@ -207,3 +207,11 @@ val reset_simplex_iteration_count : lp -> unit
 
 (** This number is incremented after each simplex iteration. *)
 val get_simplex_iteration_count : lp -> int
+
+val set_simplex_iteration_limit : lp -> int -> unit
+
+val get_simplex_iteration_limit : lp -> int
+
+val set_simplex_time_limit : lp -> float -> unit
+
+val get_simplex_time_limit : lp -> float

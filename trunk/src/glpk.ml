@@ -153,7 +153,7 @@ external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
 
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
-external use_presolver : lp -> bool -> unit = "ocaml_glpk_use_presolver"
+external use_presolver : lp -> bool -> unit = "ocaml_glpk_set_use_presolver"
 
 external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
 
@@ -172,3 +172,11 @@ let set_message_level lp n =
     if (n < 0 && n > 3) then
         raise (Invalid_argument "set_message_level");
     _set_message_level lp n
+
+external set_simplex_iteration_limit : lp -> int -> unit = "ocaml_glpk_set_iteration_limit"
+
+external get_simplex_iteration_limit : lp -> int = "ocaml_glpk_get_iteration_limit"
+
+external set_simplex_time_limit : lp -> float -> unit = "ocaml_glpk_set_time_limit"
+
+external get_simplex_time_limit : lp -> float = "ocaml_glpk_get_time_limit"
