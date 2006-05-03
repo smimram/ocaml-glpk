@@ -3,6 +3,6 @@ RESULT = knapsack
 PACKS = glpk
 
 all:
-	ocamlc -I ../ocaml-glpk/src/ glpk.cma knapsack.ml -o knapsack
+	ocamlc -I ../../trunk/src glpk.cma knapsack.ml -o knapsack
 
 -include OCamlMakefile

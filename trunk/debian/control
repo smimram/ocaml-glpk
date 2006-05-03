@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Samuel Mimram <smimram@debian.org>
 Build-Depends: debhelper (>= 4.0.0), glpk, ocaml-nox (>= 3.09.0), ocaml-findlib
-Standards-Version: 3.6.2
+Standards-Version: 3.7.0
 
 Package: libglpk-ocaml
 Section: libs
