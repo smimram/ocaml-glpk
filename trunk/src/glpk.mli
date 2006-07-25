@@ -176,6 +176,9 @@ val interior : lp -> unit
 (** Solve a MIP proble using the branch-and-bound method. *)
 val branch_and_bound : lp -> unit
 
+(** Solve a MIP proble using and optimized version of the branch-and-bound method. *)
+val branch_and_bound_opt : lp -> unit
+
 (** Retrieve objective value. *)
 val get_obj_val : lp -> float
 
@@ -208,10 +211,14 @@ val reset_simplex_iteration_count : lp -> unit
 (** This number is incremented after each simplex iteration. *)
 val get_simplex_iteration_count : lp -> int
 
+(** Set the maximum number of iteration that [simplex] should do. *)
 val set_simplex_iteration_limit : lp -> int -> unit
 
+(** Retrieve the maximum number of iteration that [simplex] should do. *)
 val get_simplex_iteration_limit : lp -> int
 
+(** Set the maximum amount of time that [simplex] should take. *)
 val set_simplex_time_limit : lp -> float -> unit
 
+(** Retrieve the maximum amount of time that [simplex] should take. *)
 val get_simplex_time_limit : lp -> float

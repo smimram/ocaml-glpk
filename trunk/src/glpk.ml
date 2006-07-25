@@ -151,6 +151,8 @@ external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind
 
 external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
 
+external branch_and_bound_opt : lp -> unit = "ocaml_glpk_integer"
+
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
 external use_presolver : lp -> bool -> unit = "ocaml_glpk_set_use_presolver"

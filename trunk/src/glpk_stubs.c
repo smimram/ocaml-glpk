@@ -401,6 +401,19 @@ CAMLprim value ocaml_glpk_integer(value blp)
   return Val_unit;
 }
 
+CAMLprim value ocaml_glpk_intopt(value blp)
+{
+  LPX *lp = Lpx_val(blp);
+  int ret;
+
+  caml_enter_blocking_section();
+  ret = lpx_intopt(lp);
+  caml_leave_blocking_section();
+
+  raise_on_error(ret);
+  return Val_unit;
+}
+
 CAMLprim value ocaml_glpk_warm_up(value blp)
 {
   LPX *lp = Lpx_val(blp);
