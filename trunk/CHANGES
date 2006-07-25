@@ -3,6 +3,8 @@
 * Added set/get_simplex_iteration_count.
 * Fixed a bug in new_blp (unnecessary CAMLlocal) and removed unnecessary
   CAMLparams (thanks Markus Mottl).
+* Allow other threads to run while simplex, interior or branch_and_bound is
+  being executed (added blocking sections).
 
 0.1.4 (07-04-2006)
 =====

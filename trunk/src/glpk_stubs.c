@@ -27,6 +27,7 @@
 #include <caml/memory.h>
 #include <caml/misc.h>
 #include <caml/mlvalues.h>
+#include <caml/signals.h>
 
 #include <assert.h>
 
@@ -273,7 +274,13 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
 CAMLprim value ocaml_glpk_simplex(value blp)
 {
   LPX *lp = Lpx_val(blp);
-  raise_on_error(lpx_simplex(lp));
+  int ret;
+
+  caml_enter_blocking_section();
+  ret = lpx_simplex(lp);
+  caml_leave_blocking_section();
+
+  raise_on_error(ret);
   return Val_unit;
 }
 
@@ -337,7 +344,13 @@ CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
 CAMLprim value ocaml_glpk_interior(value blp)
 {
   LPX *lp = Lpx_val(blp);
-  raise_on_error(lpx_interior(lp));
+  int ret;
+
+  caml_enter_blocking_section();
+  ret = lpx_interior(lp);
+  caml_leave_blocking_section();
+
+  raise_on_error(ret);
   return Val_unit;
 }
 
@@ -378,7 +391,13 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
 CAMLprim value ocaml_glpk_integer(value blp)
 {
   LPX *lp = Lpx_val(blp);
-  raise_on_error(lpx_integer(lp));
+  int ret;
+
+  caml_enter_blocking_section();
+  ret = lpx_integer(lp);
+  caml_leave_blocking_section();
+
+  raise_on_error(ret);
   return Val_unit;
 }
 
