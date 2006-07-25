@@ -1,0 +1,22 @@
+Source: ocaml-glpk
+Section: devel
+Priority: optional
+Maintainer: Samuel Mimram <smimram@debian.org>
+Build-Depends: debhelper (>= 4.0.0), glpk, ocaml-nox (>= 3.09.0), ocaml-findlib
+Standards-Version: 3.7.2
+
+Package: libglpk-ocaml
+Section: libs
+Architecture: any
+Depends: ocaml-base-nox-${F:OCamlABI}, glpk, ${shlibs:Depends}
+Description: OCaml bindings to GLPK for solving linear programming problems
+ OCaml bindings the GLPK (GNU Linear Programming Kit) library for solving
+ linear programming and mixed integer programming problems.
+
+Package: libglpk-ocaml-dev
+Section: libdevel
+Architecture: any
+Depends: ocaml-base-nox-${F:OCamlABI}, ocaml-findlib, libglpk-ocaml (= ${Source-Version})
+Description: OCaml bindings to GLPK for solving linear programming problems
+ OCaml bindings the GLPK (GNU Linear Programming Kit) library for solving
+ linear programming and mixed integer programming problems.

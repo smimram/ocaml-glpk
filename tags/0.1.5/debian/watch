@@ -1,0 +1,3 @@
+version=3
+
+http://sf.net/ocaml-glpk/ocaml-glpk-([0-9\.]*)\.tar\.gz debian uupdate
