@@ -211,10 +211,10 @@ val reset_simplex_iteration_count : lp -> unit
 (** This number is incremented after each simplex iteration. *)
 val get_simplex_iteration_count : lp -> int
 
-(** Set the maximum number of iteration that [simplex] should do. *)
+(** Set the maximum number of iterations that [simplex] should do. *)
 val set_simplex_iteration_limit : lp -> int -> unit
 
-(** Retrieve the maximum number of iteration that [simplex] should do. *)
+(** Retrieve the maximum number of iterations that [simplex] should do. *)
 val get_simplex_iteration_limit : lp -> int
 
 (** Set the maximum amount of time that [simplex] should take. *)
