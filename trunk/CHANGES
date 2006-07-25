@@ -1,6 +1,8 @@
 0.1.5 (unreleased)
 =====
 * Added set/get_simplex_iteration_count.
+* Fixed a bug in new_blp (unnecessary CAMLlocal) and removed unnecessary
+  CAMLparams (thanks Markus Mottl).
 
 0.1.4 (07-04-2006)
 =====
