@@ -1,3 +1,9 @@
+ocaml-glpk (0.1.6-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Samuel Mimram <smimram@debian.org>  Tue, 25 Jul 2006 15:47:43 +0200
+
 ocaml-glpk (0.1.5-1) unstable; urgency=low
 
   * New upstream release.
