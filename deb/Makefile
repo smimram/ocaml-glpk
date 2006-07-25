@@ -11,4 +11,7 @@ debsrc:
 deb: debsrc
 	cd ocaml-glpk-$(VERSION); debuild
 
+clean:
+	rm -f *.deb *.diff.gz *.dsc *.asc *.build *.changes *.orig.tar.gz
+
 .PHONY: deb
