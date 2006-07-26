@@ -1,6 +1,7 @@
 0.1.6 (unreleased)
 =====
 * Added branch_and_bound_opt.
+* Protect values used in blocking sections.
 
 0.1.5 (2006-07-25)
 =====

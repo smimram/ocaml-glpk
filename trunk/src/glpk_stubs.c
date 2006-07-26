@@ -273,6 +273,7 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
 
 CAMLprim value ocaml_glpk_simplex(value blp)
 {
+  CAMLparam1(blp);
   LPX *lp = Lpx_val(blp);
   int ret;
 
@@ -281,7 +282,7 @@ CAMLprim value ocaml_glpk_simplex(value blp)
   caml_leave_blocking_section();
 
   raise_on_error(ret);
-  return Val_unit;
+  CAMLreturn(Val_unit);
 }
 
 CAMLprim value ocaml_glpk_get_obj_val(value blp)
@@ -343,6 +344,7 @@ CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
 
 CAMLprim value ocaml_glpk_interior(value blp)
 {
+  CAMLparam1(blp);
   LPX *lp = Lpx_val(blp);
   int ret;
 
@@ -351,7 +353,7 @@ CAMLprim value ocaml_glpk_interior(value blp)
   caml_leave_blocking_section();
 
   raise_on_error(ret);
-  return Val_unit;
+  CAMLreturn(Val_unit);
 }
 
 static int class_table[] = {LPX_LP, LPX_MIP};
@@ -390,6 +392,7 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
 
 CAMLprim value ocaml_glpk_integer(value blp)
 {
+  CAMLparam1(blp);
   LPX *lp = Lpx_val(blp);
   int ret;
 
@@ -398,11 +401,12 @@ CAMLprim value ocaml_glpk_integer(value blp)
   caml_leave_blocking_section();
 
   raise_on_error(ret);
-  return Val_unit;
+  CAMLreturn(Val_unit);
 }
 
 CAMLprim value ocaml_glpk_intopt(value blp)
 {
+  CAMLparam1(blp);
   LPX *lp = Lpx_val(blp);
   int ret;
 
@@ -411,7 +415,7 @@ CAMLprim value ocaml_glpk_intopt(value blp)
   caml_leave_blocking_section();
 
   raise_on_error(ret);
-  return Val_unit;
+  CAMLreturn(Val_unit);
 }
 
 CAMLprim value ocaml_glpk_warm_up(value blp)
@@ -438,7 +442,8 @@ CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
 CAMLprim value ocaml_glpk_get_##name(value blp) \
 { \
   LPX *lp = Lpx_val(blp); \
-  return caml_copy_double(lpx_get_real_parm(lp, param)); \
+  double ans = lpx_get_real_parm(lp, param); \
+  return caml_copy_double(ans); \
 } \
 CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
 { \
