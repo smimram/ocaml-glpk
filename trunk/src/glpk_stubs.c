@@ -239,7 +239,7 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   if (i_dim <= 0)
     return Val_unit;
 
-  j_dim = Wosize_val(Field(matrix, 0)) / 2;
+  j_dim = Wosize_val(Field(matrix, 0));
   ia = (int*)malloc((i_dim * j_dim + 1) * sizeof(int));
   ja = (int*)malloc((i_dim * j_dim + 1) * sizeof(int));
   ar = (double*)malloc((i_dim * j_dim + 1) * sizeof(double));
@@ -248,7 +248,7 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   for(i = 0; i < i_dim; i++)
   {
     /* TODO: raise an error */
-    assert(Wosize_val(Field(matrix, i)) == j_dim * 2);
+    assert(Wosize_val(Field(matrix, i)) == j_dim);
     for(j = 0; j < j_dim; j++)
     {
       x = Double_field(Field(matrix, i), j);
