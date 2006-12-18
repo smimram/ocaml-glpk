@@ -101,8 +101,7 @@ let make_problem dir zcoefs constr pbounds xbounds =
   let lp = new_problem () in
     set_direction lp dir;
     add_rows lp (Array.length pbounds);
-    for i = 0 to ((Array.length pbounds) - 1)
-    do
+    for i = 0 to (Array.length pbounds) - 1 do
       match pbounds.(i) with
         | lb, ub when lb = -.infinity && ub = infinity -> set_row_bounds lp i Free_var 0. 0.
         | lb, ub when ub = infinity -> set_row_bounds lp i Lower_bounded_var lb 0.
@@ -111,8 +110,7 @@ let make_problem dir zcoefs constr pbounds xbounds =
         | lb, ub -> set_row_bounds lp i Double_bounded_var lb ub
     done;
     add_columns lp (Array.length xbounds);
-    for i = 0 to ((Array.length xbounds) - 1)
-    do
+    for i = 0 to (Array.length xbounds) - 1 do
       set_obj_coef lp i zcoefs.(i);
       match xbounds.(i) with
         | lb, ub when lb = -.infinity && ub = infinity -> set_col_bounds lp i Free_var 0. 0.
