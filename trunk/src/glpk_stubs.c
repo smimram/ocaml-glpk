@@ -308,6 +308,18 @@ CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
   return caml_copy_double(ans);
 }
 
+CAMLprim value ocaml_glpk_get_row_prim(value blp, value n)
+{
+  LPX *lp = Lpx_val(blp);
+  return caml_copy_double(lpx_get_row_prim(lp, Int_val(n) + 1));
+}
+
+CAMLprim value ocaml_glpk_get_row_dual(value blp, value n)
+{
+  LPX *lp = Lpx_val(blp);
+  return caml_copy_double(lpx_get_row_dual(lp, Int_val(n) + 1));
+}
+
 CAMLprim value ocaml_glpk_get_num_rows(value blp)
 {
   LPX *lp = Lpx_val(blp);

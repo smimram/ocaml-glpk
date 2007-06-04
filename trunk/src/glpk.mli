@@ -188,6 +188,12 @@ val get_col_primal : lp -> int -> float
 (** Get the primal values of the structural variables associated with each column. *)
 val get_col_primals : lp -> float array
 
+(** Get the primal value of the structural variable associated with a row. *)
+val get_row_primal : lp -> int -> float
+
+(** Get the dual value of the structural variable associated with a row. *)
+val get_row_dual : lp -> int -> float
+
 
 (** {2 Setting parameters of the solver} *)
 

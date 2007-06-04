@@ -97,6 +97,10 @@ external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
 
 external get_col_primal : lp -> int -> float = "ocaml_glpk_get_col_prim"
 
+external get_row_primal : lp -> int -> float = "ocaml_glpk_get_row_prim"
+
+external get_row_dual : lp -> int -> float = "ocaml_glpk_get_row_dual"
+
 let make_problem dir zcoefs constr pbounds xbounds =
   let lp = new_problem () in
     set_direction lp dir;
