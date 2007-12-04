@@ -1,5 +1,6 @@
 0.1.6 (unreleased)
 =====
+* Added load_sparse_matrix.
 * Added branch_and_bound_opt.
 * Added get_row_primal and get_row_dual (thanks Sean McLaughlin).
 * Protect values used in blocking sections.

@@ -153,6 +153,10 @@ val set_obj_coef : lp -> int -> float -> unit
 (** Load a constraint matrix. *)
 val load_matrix : lp -> float array array -> unit
 
+(** Load a sparse constraint matrix stored as an array whose elements are of the
+  * form ((row, column), value) indicating non-null elements of the matrix. *)
+val load_sparse_matrix : lp -> ((int * int) * float) array -> unit
+
 
 (** {2 Solving problems and retreiving solutions} *)
 

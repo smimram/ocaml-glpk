@@ -271,6 +271,35 @@ CAMLprim value ocaml_glpk_load_matrix(value blp, value matrix)
   return Val_unit;
 }
 
+CAMLprim value ocaml_glpk_load_sparse_matrix(value blp, value matrix)
+{
+  LPX *lp = Lpx_val(blp);
+  int len = Wosize_val(matrix);
+  int *ia, *ja;
+  double *ar;
+  int i;
+  value e;
+
+  ia = (int*)malloc((len + 1) * sizeof(int));
+  ja = (int*)malloc((len + 1) * sizeof(int));
+  ar = (double*)malloc((len + 1) * sizeof(double));
+
+  for(i = 0; i < len; i++)
+  {
+    e = Field(matrix, i);
+    ia[i+1] = Int_val(Field(Field(e, 0), 0)) + 1;
+    ja[i+1] = Int_val(Field(Field(e, 0), 1)) + 1;
+    ar[i+1] = Double_val(Field(e, 1));
+  }
+  lpx_load_matrix(lp, len, ia, ja, ar);
+
+  free(ia);
+  free(ja);
+  free(ar);
+
+  return Val_unit;
+}
+
 CAMLprim value ocaml_glpk_simplex(value blp)
 {
   CAMLparam1(blp);

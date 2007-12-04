@@ -91,6 +91,8 @@ external set_obj_coef : lp -> int -> float -> unit = "ocaml_glpk_set_obj_coef"
 
 external load_matrix : lp -> float array array -> unit = "ocaml_glpk_load_matrix"
 
+external load_sparse_matrix : lp -> ((int * int) * float) array -> unit = "ocaml_glpk_load_sparse_matrix"
+
 external simplex : lp -> unit = "ocaml_glpk_simplex"
 
 external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
