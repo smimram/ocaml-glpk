@@ -1,4 +1,0 @@
-usr/lib/ocaml/@OCamlABI@/glpk/META
-usr/lib/ocaml/@OCamlABI@/glpk/*.a
-usr/lib/ocaml/@OCamlABI@/glpk/*.cm*
-usr/lib/ocaml/@OCamlABI@/glpk/*.ml*
