@@ -1,4 +1,4 @@
-0.1.6 (unreleased)
+0.1.6 (2010-07-02)
 =====
 * Added load_sparse_matrix.
 * Added branch_and_bound_opt.
