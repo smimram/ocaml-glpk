@@ -1,3 +1,6 @@
+0.1.8 (unreleased)
+=====
+
 0.1.7 (2014-07-31)
 =====
 * Use compatibility layer for old API which was removed in glpk 4.53.
