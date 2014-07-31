@@ -4,8 +4,6 @@
   * @author Samuel Mimram
   *)
 
-(* $Id$ *)
-
 open Glpk
 
 let () =

@@ -18,8 +18,6 @@
  * Boston, MA 02111-1307, USA.
  *)
 
-(* $Id$ *)
-
 type lp
 
 type direction = Minimize | Maximize

@@ -1,4 +1,3 @@
-# $Id$
 SOURCES = example.ml
 RESULT = example
 LIBS = glpk

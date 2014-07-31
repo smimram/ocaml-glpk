@@ -1,5 +1,3 @@
-# $Id$
-
 PROGNAME = ocaml-glpk
 DISTFILES = CHANGES COPYING Makefile README VERSION \
             src/Makefile src/OCamlMakefile src/META src/*.ml src/*.mli src/*.c \

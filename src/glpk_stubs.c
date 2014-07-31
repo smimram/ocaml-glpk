@@ -18,8 +18,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* $Id$ */
-
 #include <caml/alloc.h>
 #include <caml/callback.h>
 #include <caml/custom.h>

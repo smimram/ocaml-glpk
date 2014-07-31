@@ -1,14 +1,11 @@
 (**
-  * OCaml bindings to glpk. Please see the glpk manual for further explanations 
+  * OCaml bindings to glpk. Please see the glpk manual for further explanations
   * on the semantics of functions.
   *
   * Warning: contrarily to the C version of glpk, all indexes are 0-based.
   *
   * @author Samuel Mimram
   *)
-
-
-(* $Id$ *)
 
 
 (** {1 Types} *) (* TODO: better comment! *)
