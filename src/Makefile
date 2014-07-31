@@ -1,6 +1,4 @@
-# $Id$
-
-SOURCES = glpk_stubs.c glpk.mli glpk.ml
+SOURCES = oldapi/lpx.c glpk_stubs.c glpk.mli glpk.ml
 RESULT = glpk
 LIBINSTALL_FILES = $(wildcard *.mli *.cmi *.cma *.cmxa *.a *.so)
 CLIBS = glpk
