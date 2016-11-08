@@ -1,5 +1,6 @@
 0.1.8 (unreleased)
 =====
+* Remove -ansi flag in order to be compatible with OCaml 4.04.
 
 0.1.7 (2014-07-31)
 =====
