@@ -1497,9 +1497,4 @@ int lpx_is_b_avail(glp_prob *lp)
       return glp_bf_exists(lp);
 }
 
-int lpx_main(int argc, const char *argv[])
-{     /* stand-alone LP/MIP solver */
-      return glp_main(argc, argv);
-}
-
 /* eof */
