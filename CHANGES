@@ -1,4 +1,4 @@
-0.1.8 (unreleased)
+0.1.8 (2016-11-13)
 =====
 * Remove -ansi flag in order to be compatible with OCaml 4.04.
 * Remove lpx_main from oldapi since glp_main has been removed in glpk.
