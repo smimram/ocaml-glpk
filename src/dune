@@ -1,0 +1,18 @@
+
+(rule
+  (targets lpx.h)
+  (deps oldapi/lpx.h)
+  (action (run cp %{deps} %{targets} )))
+
+(rule
+  (targets lpx.c)
+  (deps oldapi/lpx.c)
+  (action (run cp %{deps} %{targets} )))
+
+(library
+  (name glpk)
+  (public_name glpk)
+  (flags :standard -safe-string)
+  (c_flags -Wall -DCAML_NAME_SPACE -g)
+  (c_library_flags -lglpk)
+  (c_names lpx glpk_stubs))

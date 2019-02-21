@@ -1,39 +1,42 @@
-ocaml-glpk - OCaml bindings for glpk
-====================================
+# ocaml-glpk - OCaml bindings for glpk
 
-Author: Samuel Mimram <samuel.mimram@ens-lyon.org>
-Email: smimram@users.sourceforge.net
-Homepage: http://ocaml-glpk.sourceforge.net/
+- Author: Samuel Mimram <samuel.mimram@ens-lyon.org>
+- Email: smimram@users.sourceforge.net
+- Homepage: https://github.com/smimram/ocaml-glpk/
 
 Copyright (C) 2003-2010 Samuel Mimram.
 
 
-Dependencies
-============
-To build this library you need to have OCaml 3.07 and glpk installed.
+## Dependencies
+
+To build this library you need to have OCaml 3.07, `dune`, and glpk installed.
 
 You can download glpk here: http://www.gnu.org/software/glpk/glpk.html.
 
 
-Installation
-============
+## Installation
+
 To compile the program type:
 
+```
 make
+```
 
-then, to install it, type as root:
+then, to install it, type (possibly as root):
 
+```
 make install
+```
 
 
-Notes
-=====
+## Notes
+
 The bindings are not (yet) complete. If you need a specific function, just mail
 me (or send a patch) and I'll add it as soon as possible.
 
 
-License
-=======
+## License
+
 The license of this library is the GPL like the original glpk library. It is
 therefore useless to ask me to change the license, I can't do that.
 
