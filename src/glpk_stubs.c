@@ -30,7 +30,7 @@
 #include <assert.h>
 
 #include <glpk.h>
-#include "oldapi/lpx.h"
+#include "lpx.h"
 
 static void raise_on_error(int ret)
 {
