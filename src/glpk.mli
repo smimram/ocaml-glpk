@@ -41,41 +41,8 @@ type status =
 
 (** {1 Exceptions} *)
 
-(** The problem has no rows/columns, or the initial basis is invalid, or the initial basis matrix is singular or ill-conditionned. *)
-exception Fault
-
-(** The problem has no rows and/or column. *)
-exception Empty
-
-(** The LP basis is invalid beacause the number of basic variables is not the same as the number of rows. *)
-exception Bad_basis
-
-(** The objective function being minimized has reached its lower limit and continues decreasing. *)
-exception Lower_limit
-
-(** The objective function being maximized has reached its upper limit and continues increasing. *)
-exception Upper_limit
-
-(** The problem has no primal feasible solution. *)
-exception No_primal_feasible_solution
-
-(** The problem has no dual feasible solution. *)
-exception No_dual_feasible_solution
-
-(** Iterations limit exceeded. *)
-exception Iteration_limit
-
-(** Time limit exceeded. *)
-exception Time_limit
-
-(** Very slow convergence or divergence. *)
-exception No_convergence
-
-(** Failure of the solver (the current basis matrix got singular or ill-conditionned). *)
-exception Solver_failure
-
 (** Unknown error (this exception should disappear in future versions). *)
-exception Unknown_error
+exception Unknown_error of int
 
 
 (** {1 Functions} *)
@@ -201,39 +168,3 @@ val branch_and_cut : lp -> unit
 val mip_status : lp -> status
 
 val mip_obj_val : lp -> float
-
-(*
-(** {2 Setting parameters of the solver} *)
-
-(** Set the level of messages output by sover routines. The second argument might be:
-  - 0: no output
-  - 1: error message only
-  - 2: normal output
-  - 3: full output (includes informational messages)
-*)
-val set_message_level : lp -> int -> unit
-
-(** Use the builtin LP-presolver in [simplex]? *)
-val use_presolver : lp -> bool -> unit
-
-(** Initialize the simplex iteration counter. *)
-val set_simplex_iteration_count : lp -> int -> unit
-
-(** Reset the simplex iteration counter. *)
-val reset_simplex_iteration_count : lp -> unit
-
-(** This number is incremented after each simplex iteration. *)
-val get_simplex_iteration_count : lp -> int
-
-(** Set the maximum number of iterations that [simplex] should do. *)
-val set_simplex_iteration_limit : lp -> int -> unit
-
-(** Retrieve the maximum number of iterations that [simplex] should do. *)
-val get_simplex_iteration_limit : lp -> int
-
-(** Set the maximum amount of time that [simplex] should take. *)
-val set_simplex_time_limit : lp -> float -> unit
-
-(** Retrieve the maximum amount of time that [simplex] should take. *)
-val get_simplex_time_limit : lp -> float
-*)

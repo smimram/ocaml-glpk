@@ -38,43 +38,10 @@ static void raise_on_error(int ret)
     case 0:
       return;
 
-      /*
-    case LPX_E_FAULT:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_fault"));
-
-    case LPX_E_OBJLL:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_objll"));
-
-    case LPX_E_OBJUL:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_objul"));
-
-    case LPX_E_NOPFS:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_nopfs"));
-
-    case LPX_E_NODFS:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_nodfs"));
-
-    case LPX_E_ITLIM:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_itlim"));
-
-    case LPX_E_TMLIM:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_tmlim"));
-
-    case LPX_E_SING:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_sing"));
-
-    case LPX_E_EMPTY:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_empty"));
-
-    case LPX_E_BADB:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_badb"));
-
-    case LPX_E_NOCONV:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_noconv"));
-      */
+    //TODO: raise meaningful exceptions
 
     default:
-      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_unknown"));
+      caml_raise_with_arg(*caml_named_value("ocaml_glpk_exn_unknown"), Val_int(ret));
   }
   assert(0);
 }
@@ -428,34 +395,6 @@ CAMLprim value ocaml_glpk_mip_status(value blp)
   glp_prob *lp = Prob_val(blp);
   CAMLreturn(Val_int(status_int(glp_mip_status(lp))));
 }
-
-/*
-#define BIND_INT_PARAM(name, param) \
-CAMLprim value ocaml_glpk_get_##name(value blp) \
-{ \
-  glp_prob *lp = Prob_val(blp); \
-  return Val_int(glp_get_int_parm(lp, param)); \
-} \
-CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
-{ \
-  glp_prob *lp = Prob_val(blp); \
-  glp_set_int_parm(lp, param, Int_val(n)); \
-  return Val_unit; \
-}
-*/
-
-/* BIND_INT_PARAM(message_level, glp_prob_K_MSGLEV); */
-/* BIND_INT_PARAM(scaling, glp_prob_K_SCALE); */
-/* BIND_INT_PARAM(use_dual_simplex, glp_prob_K_DUAL); */
-/* BIND_INT_PARAM(pricing, glp_prob_K_PRICE); */
-/* BIND_REAL_PARAM(relaxation, glp_prob_K_RELAX); */
-/* BIND_INT_PARAM(solution_rounding, glp_prob_K_ROUND); */
-/* BIND_INT_PARAM(iteration_limit, glp_prob_K_ITLIM); */
-/* BIND_INT_PARAM(iteration_count, glp_prob_K_ITCNT); */
-/* BIND_REAL_PARAM(time_limit, glp_prob_K_TMLIM); */
-/* BIND_INT_PARAM(branching_heuristic, glp_prob_K_BRANCH); */
-/* BIND_INT_PARAM(backtracking_heuristic, glp_prob_K_BTRACK); */
-/* BIND_INT_PARAM(use_presolver, glp_prob_K_PRESOL); */
 
 CAMLprim value ocaml_glpk_read_cplex(value fname)
 {
