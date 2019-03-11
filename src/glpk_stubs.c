@@ -314,33 +314,22 @@ CAMLprim value ocaml_glpk_simplex(value blp)
   CAMLreturn(Val_unit);
 }
 
-/* Is this a MIP problem? */
-static int is_mip(glp_prob* pb)
-{
-  return (!(glp_get_num_int(pb)));
-}
-
 CAMLprim value ocaml_glpk_get_obj_val(value blp)
 {
   glp_prob *lp = Prob_val(blp);
-  double ans;
-  if (is_mip(lp))
-    ans = glp_mip_obj_val(lp);
-  else
-    ans = glp_get_obj_val(lp);
-  return caml_copy_double(ans);
+  return caml_copy_double(glp_get_obj_val(lp));
+}
+
+CAMLprim value ocaml_glpk_mip_obj_val(value blp)
+{
+  glp_prob *lp = Prob_val(blp);
+  return caml_copy_double(glp_mip_obj_val(lp));
 }
 
 CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
 {
   glp_prob *lp = Prob_val(blp);
-  double ans;
-  /* TODO: is it the right thing to do? */
-  if (is_mip(lp))
-    ans = glp_mip_col_val(lp, Int_val(n) + 1);
-  else
-    ans = glp_get_col_prim(lp, Int_val(n) + 1);
-  return caml_copy_double(ans);
+  return caml_copy_double(glp_get_col_prim(lp, Int_val(n) + 1));
 }
 
 CAMLprim value ocaml_glpk_get_row_prim(value blp, value n)
@@ -380,14 +369,6 @@ CAMLprim value ocaml_glpk_unscale_problem(value blp)
   glp_unscale_prob(lp);
   return Val_unit;
 }
-
-/* TODO */
-/*
-CAMLprim value ocaml_glpk_check_kkt(value blp, value scaled, value vkkt)
-{
-
-}
-*/
 
 CAMLprim value ocaml_glpk_interior(value blp)
 {
@@ -435,6 +416,7 @@ CAMLprim value ocaml_glpk_warm_up(value blp)
   return Val_unit;
 }
 
+/*
 #define BIND_INT_PARAM(name, param) \
 CAMLprim value ocaml_glpk_get_##name(value blp) \
 { \
@@ -447,6 +429,7 @@ CAMLprim value ocaml_glpk_set_##name(value blp, value n) \
   glp_set_int_parm(lp, param, Int_val(n)); \
   return Val_unit; \
 }
+*/
 
 /* BIND_INT_PARAM(message_level, glp_prob_K_MSGLEV); */
 /* BIND_INT_PARAM(scaling, glp_prob_K_SCALE); */

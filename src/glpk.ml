@@ -95,6 +95,8 @@ external simplex : lp -> unit = "ocaml_glpk_simplex"
 
 external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
 
+external mip_obj_val : lp -> float = "ocaml_glpk_mip_obj_val"
+
 external get_col_primal : lp -> int -> float = "ocaml_glpk_get_col_prim"
 
 external get_row_primal : lp -> int -> float = "ocaml_glpk_get_row_prim"
@@ -151,11 +153,11 @@ external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind
 
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
-external use_presolver : lp -> bool -> unit = "ocaml_glpk_set_use_presolver"
-
 external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
 
 external write_cplex : lp -> string -> unit = "ocaml_glpk_write_cplex"
+
+(* external use_presolver : lp -> bool -> unit = "ocaml_glpk_set_use_presolver" *)
 
 (* external set_simplex_iteration_count : lp -> int -> unit = "ocaml_glpk_set_iteration_count" *)
 

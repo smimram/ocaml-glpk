@@ -175,6 +175,8 @@ val interior : lp -> unit
 (** Retrieve objective value. *)
 val get_obj_val : lp -> float
 
+val mip_obj_val : lp -> float
+
 (** Get the primal value of the structural variable associated with a column. *)
 val get_col_primal : lp -> int -> float
 
