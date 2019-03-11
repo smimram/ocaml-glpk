@@ -28,6 +28,8 @@ type prob_class = Linear_prog | Mixed_integer_prog
 
 type var_kind = Continuous_var | Integer_var | Boolean_var
 
+type status = Optimal | Feasible | Infeasible | No_feasible | Unbounded | Undefined
+
 exception Fault
 exception Lower_limit
 exception Upper_limit
@@ -95,8 +97,6 @@ external simplex : lp -> unit = "ocaml_glpk_simplex"
 
 external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
 
-external mip_obj_val : lp -> float = "ocaml_glpk_mip_obj_val"
-
 external get_col_primal : lp -> int -> float = "ocaml_glpk_get_col_prim"
 
 external get_row_primal : lp -> int -> float = "ocaml_glpk_get_row_prim"
@@ -149,9 +149,13 @@ external interior : lp -> unit = "ocaml_glpk_interior"
 
 external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind"
 
-(* external branch_and_bound : lp -> unit = "ocaml_glpk_integer" *)
-
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
+
+external branch_and_cut : lp -> unit = "ocaml_glpk_intopt"
+
+external mip_status : lp -> status = "ocaml_glpk_mip_status"
+
+external mip_obj_val : lp -> float = "ocaml_glpk_mip_obj_val"
 
 external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
 

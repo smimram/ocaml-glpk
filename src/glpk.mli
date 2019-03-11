@@ -30,6 +30,15 @@ type var_kind =
   | Integer_var (** integer variable *)
   | Boolean_var (** boolean variable *)
 
+(** Status of a solution. *)
+type status =
+  | Optimal (** optimal solution *)
+  | Feasible (** feasible solution *)
+  | Infeasible (** infeasible solution *)
+  | No_feasible (** no feasible solution *)
+  | Unbounded (** unbounded solution *)
+  | Undefined (** undefined solution *)
+
 (** {1 Exceptions} *)
 
 (** The problem has no rows/columns, or the initial basis is invalid, or the initial basis matrix is singular or ill-conditionned. *)
@@ -169,13 +178,8 @@ val simplex : lp -> unit
 (** Solve an LP problem using the primal-dual interior point method. *)
 val interior : lp -> unit
 
-(* (\** Solve a MIP proble using the branch-and-bound method. *\) *)
-(* val branch_and_bound : lp -> unit *)
-
 (** Retrieve objective value. *)
 val get_obj_val : lp -> float
-
-val mip_obj_val : lp -> float
 
 (** Get the primal value of the structural variable associated with a column. *)
 val get_col_primal : lp -> int -> float
@@ -188,6 +192,15 @@ val get_row_primal : lp -> int -> float
 
 (** Get the dual value of the structural variable associated with a row. *)
 val get_row_dual : lp -> int -> float
+
+(** {2 Mixed integer programming} *)
+
+(** Solve a MIP proble using the branch-and-cut method. *)
+val branch_and_cut : lp -> unit
+
+val mip_status : lp -> status
+
+val mip_obj_val : lp -> float
 
 (*
 (** {2 Setting parameters of the solver} *)

@@ -384,6 +384,13 @@ CAMLprim value ocaml_glpk_interior(value blp)
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value ocaml_glpk_warm_up(value blp)
+{
+  glp_prob *lp = Prob_val(blp);
+  raise_on_error(glp_warm_up(lp));
+  return Val_unit;
+}
+
 static int kind_table[] = {GLP_CV, GLP_IV, GLP_BV};
 
 CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
@@ -393,27 +400,33 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
   return Val_unit;
 }
 
-/*
-CAMLprim value ocaml_glpk_integer(value blp)
+CAMLprim value ocaml_glpk_intopt(value blp)
 {
   CAMLparam1(blp);
   glp_prob *lp = Prob_val(blp);
   int ret;
 
   caml_enter_blocking_section();
-  ret = glp_integer(lp);
+  ret = glp_intopt(lp, NULL); // TODO: parameters
   caml_leave_blocking_section();
 
   raise_on_error(ret);
   CAMLreturn(Val_unit);
 }
-*/
 
-CAMLprim value ocaml_glpk_warm_up(value blp)
+static int status_table[] = {GLP_OPT, GLP_FEAS, GLP_INFEAS, GLP_NOFEAS, GLP_UNBND, GLP_UNDEF};
+
+static int status_int (int n){
+  int i=0;
+  while (status_table[i] != n) i++;
+  return i;
+}
+
+CAMLprim value ocaml_glpk_mip_status(value blp)
 {
+  CAMLparam1(blp);
   glp_prob *lp = Prob_val(blp);
-  raise_on_error(glp_warm_up(lp));
-  return Val_unit;
+  CAMLreturn(Val_int(status_int(glp_mip_status(lp))));
 }
 
 /*
