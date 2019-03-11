@@ -4,7 +4,7 @@
 - Email: smimram@users.sourceforge.net
 - Homepage: https://github.com/smimram/ocaml-glpk/
 
-Copyright (C) 2003-2010 Samuel Mimram.
+Copyright (C) 2003-2019 Samuel Mimram.
 
 
 ## Dependencies

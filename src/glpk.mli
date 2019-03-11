@@ -28,6 +28,7 @@ type prob_class =
 type var_kind =
   | Continuous_var (** continuous variable *)
   | Integer_var (** integer variable *)
+  | Boolean_var (** boolean variable *)
 
 (** {1 Exceptions} *)
 
@@ -92,12 +93,6 @@ val set_prob_name : lp -> string -> unit
 
 (** Retrieve the problem name. *)
 val get_prob_name : lp -> string
-
-(** Set the problem class. *)
-val set_class : lp -> prob_class -> unit
-
-(** Retrieve the problem class. *)
-val get_class : lp -> prob_class
 
 (** Set the direction of the optimization. *)
 val set_direction : lp -> direction -> unit
@@ -174,11 +169,8 @@ val simplex : lp -> unit
 (** Solve an LP problem using the primal-dual interior point method. *)
 val interior : lp -> unit
 
-(** Solve a MIP proble using the branch-and-bound method. *)
-val branch_and_bound : lp -> unit
-
-(** Solve a MIP proble using and optimized version of the branch-and-bound method. *)
-val branch_and_bound_opt : lp -> unit
+(* (\** Solve a MIP proble using the branch-and-bound method. *\) *)
+(* val branch_and_bound : lp -> unit *)
 
 (** Retrieve objective value. *)
 val get_obj_val : lp -> float
@@ -195,7 +187,7 @@ val get_row_primal : lp -> int -> float
 (** Get the dual value of the structural variable associated with a row. *)
 val get_row_dual : lp -> int -> float
 
-
+(*
 (** {2 Setting parameters of the solver} *)
 
 (** Set the level of messages output by sover routines. The second argument might be:
@@ -229,3 +221,4 @@ val set_simplex_time_limit : lp -> float -> unit
 
 (** Retrieve the maximum amount of time that [simplex] should take. *)
 val get_simplex_time_limit : lp -> float
+*)
