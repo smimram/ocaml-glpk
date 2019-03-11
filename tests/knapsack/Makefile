@@ -1,8 +1,8 @@
 SOURCES = knapsack.ml
 RESULT = knapsack
-PACKS = glpk
+LIBS = glpk
+INCDIRS = ../../_build/install/default/lib/glpk
 
-all:
-	ocamlc -I ../../trunk/src glpk.cma knapsack.ml -o knapsack
+all: dnc
 
 -include OCamlMakefile
