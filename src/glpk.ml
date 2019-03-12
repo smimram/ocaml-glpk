@@ -135,6 +135,10 @@ external mip_status : lp -> status = "ocaml_glpk_mip_status"
 
 external mip_obj_val : lp -> float = "ocaml_glpk_mip_obj_val"
 
+external mip_row_val : lp -> int -> float = "ocaml_glpk_mip_row_val"
+
+external mip_col_val : lp -> int -> float = "ocaml_glpk_mip_col_val"
+
 external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
 
 external write_cplex : lp -> string -> unit = "ocaml_glpk_write_cplex"

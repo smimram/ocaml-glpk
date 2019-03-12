@@ -287,12 +287,6 @@ CAMLprim value ocaml_glpk_get_obj_val(value blp)
   return caml_copy_double(glp_get_obj_val(lp));
 }
 
-CAMLprim value ocaml_glpk_mip_obj_val(value blp)
-{
-  glp_prob *lp = Prob_val(blp);
-  return caml_copy_double(glp_mip_obj_val(lp));
-}
-
 CAMLprim value ocaml_glpk_get_col_prim(value blp, value n)
 {
   glp_prob *lp = Prob_val(blp);
@@ -379,6 +373,24 @@ CAMLprim value ocaml_glpk_intopt(value blp)
 
   raise_on_error(ret);
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value ocaml_glpk_mip_obj_val(value blp)
+{
+  glp_prob *lp = Prob_val(blp);
+  return caml_copy_double(glp_mip_obj_val(lp));
+}
+
+CAMLprim value ocaml_glpk_mip_row_val(value blp, value n)
+{
+  glp_prob *lp = Prob_val(blp);
+  return caml_copy_double(glp_mip_row_val(lp, Int_val(n)));
+}
+
+CAMLprim value ocaml_glpk_mip_col_val(value blp, value n)
+{
+  glp_prob *lp = Prob_val(blp);
+  return caml_copy_double(glp_mip_col_val(lp, Int_val(n)));
 }
 
 static int status_table[] = {GLP_OPT, GLP_FEAS, GLP_INFEAS, GLP_NOFEAS, GLP_UNBND, GLP_UNDEF};
