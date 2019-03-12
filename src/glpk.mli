@@ -168,3 +168,7 @@ val branch_and_cut : lp -> unit
 val mip_status : lp -> status
 
 val mip_obj_val : lp -> float
+
+val mip_row_val : lp -> int -> float
+
+val mip_col_val : lp -> int -> float
