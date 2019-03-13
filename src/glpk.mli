@@ -1,11 +1,11 @@
 (**
-  * OCaml bindings to glpk. Please see the glpk manual for further explanations
-  * on the semantics of functions.
-  *
-  * Warning: contrarily to the C version of glpk, all indexes are 0-based.
-  *
-  * @author Samuel Mimram
-  *)
+  OCaml bindings to glpk. Please see the glpk manual for further explanations
+  on the semantics of functions.
+  
+  Warning: contrarily to the C version of glpk, all indexes are 0-based.
+  
+  @author Samuel Mimram
+ *)
 
 
 (** {1 Types} *) (* TODO: better comment! *)
@@ -39,7 +39,14 @@ type status =
   | Unbounded (** unbounded solution *)
   | Undefined (** undefined solution *)
 
+(** Message level. *)
+type message_level = Msg_off | Msg_err | Msg_on | Msg_all
+
+
 (** {1 Exceptions} *)
+
+(** Time limit exceeded. *)
+exception Time_limit
 
 (** Unknown error (this exception should disappear in future versions). *)
 exception Unknown_error of int
@@ -52,7 +59,11 @@ exception Unknown_error of int
 (** Create a new linear programmation problem. *)
 val new_problem : unit -> lp
 
-(** [make_problem dir zcoefs constrs pbounds xbounds] creates the new linear programmation problem where Z = Sum_i [zcoefs.(i)] * x_ i should be optimized in the direction [dir] under the constraints [fst pbounds.(i)] <= p_i <= [snd pbounds.(i)] and [fst xbounds.(i)] <= x_i <= [snd xbounds.(i)] where p_i = Sum_j [constrs.(i).(j)] * x_j. The bounds may be [+] / [- infinity]. *)
+(** [make_problem dir zcoefs constrs pbounds xbounds] creates the new linear
+   programmation problem where Z = Sum_i [zcoefs.(i)] * x_ i should be optimized
+   in the direction [dir] under the constraints [fst pbounds.(i)] <= p_i <= [snd
+   pbounds.(i)] and [fst xbounds.(i)] <= x_i <= [snd xbounds.(i)] where p_i =
+   Sum_j [constrs.(i).(j)] * x_j. The bounds may be [+] / [- infinity]. *)
 val make_problem : direction -> float array -> float array array -> (float * float) array -> (float * float) array -> lp
 
 (** Read problem data in CPLEX LP format from a file. *)
@@ -134,13 +145,14 @@ val scale_problem : lp -> unit
 (** Unscale problem data. *)
 val unscale_problem : lp -> unit
 
-(** Warm up the LP basis for the specified problem object using current statuses assigned to rows and columns. *)
+(** Warm up the LP basis for the specified problem object using current statuses
+   assigned to rows and columns. *)
 val warm_up : lp -> unit
 
 (** Solve an LP problem using the simplex method. You must use builtin presolver
   * (see [use_presolver]) to get an exception if the problem has no feasible
   * solution. *)
-val simplex : lp -> unit
+val simplex : ?message_level:message_level -> ?time_limit:int -> lp -> unit
 
 (** Solve an LP problem using the primal-dual interior point method. *)
 val interior : lp -> unit
@@ -151,7 +163,8 @@ val get_obj_val : lp -> float
 (** Get the primal value of the structural variable associated with a column. *)
 val get_col_primal : lp -> int -> float
 
-(** Get the primal values of the structural variables associated with each column. *)
+(** Get the primal values of the structural variables associated with each
+   column. *)
 val get_col_primals : lp -> float array
 
 (** Get the primal value of the structural variable associated with a row. *)
@@ -163,7 +176,7 @@ val get_row_dual : lp -> int -> float
 (** {2 Mixed integer programming} *)
 
 (** Solve a MIP proble using the branch-and-cut method. *)
-val branch_and_cut : lp -> unit
+val branch_and_cut : ?message_level:message_level -> ?time_limit:int -> lp -> unit
 
 val mip_status : lp -> status
 

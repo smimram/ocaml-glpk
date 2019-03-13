@@ -30,10 +30,14 @@ type var_kind = Continuous_var | Integer_var | Boolean_var
 
 type status = Optimal | Feasible | Infeasible | No_feasible | Unbounded | Undefined
 
+type message_level = Msg_off | Msg_err | Msg_on | Msg_all
+
+exception Time_limit
 exception Unknown_error of int
 
-let _ =
-  Callback.register_exception "ocaml_glpk_exn_unkown" (Unknown_error 0)
+let () =
+  Callback.register "ocaml_glpk_exn_time_limit" Time_limit;
+  Callback.register_exception "ocaml_glpk_exn_unknown" (Unknown_error 0)
 
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"
 
@@ -71,7 +75,17 @@ external load_matrix : lp -> float array array -> unit = "ocaml_glpk_load_matrix
 
 external load_sparse_matrix : lp -> ((int * int) * float) array -> unit = "ocaml_glpk_load_sparse_matrix"
 
-external simplex : lp -> unit = "ocaml_glpk_simplex"
+type simplex_param =
+  {
+    message_level : message_level option;
+    time_limit : int option;
+  }
+
+external simplex : lp -> simplex_param -> unit = "ocaml_glpk_simplex"
+
+let simplex ?message_level ?time_limit lp =
+  let p = { message_level; time_limit } in
+  simplex lp p
 
 external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
 
@@ -129,7 +143,17 @@ external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind
 
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
-external branch_and_cut : lp -> unit = "ocaml_glpk_intopt"
+type intopt_param =
+  {
+    message_level : message_level option;
+    time_limit : int option;
+  }
+
+external branch_and_cut : lp -> intopt_param -> unit = "ocaml_glpk_intopt"
+
+let branch_and_cut ?message_level ?time_limit lp =
+  let p = { message_level; time_limit } in
+  branch_and_cut lp p
 
 external mip_status : lp -> status = "ocaml_glpk_mip_status"
 

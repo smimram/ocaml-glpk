@@ -34,15 +34,16 @@
 static void raise_on_error(int ret)
 {
   switch(ret)
-  {
+    {
     case 0:
       return;
 
-    //TODO: raise meaningful exceptions
+    case GLP_ETMLIM:
+      caml_raise_constant(*caml_named_value("ocaml_glpk_exn_time_limit"));
 
     default:
       caml_raise_with_arg(*caml_named_value("ocaml_glpk_exn_unknown"), Val_int(ret));
-  }
+    }
   assert(0);
 }
 
@@ -267,14 +268,25 @@ CAMLprim value ocaml_glpk_load_sparse_matrix(value blp, value matrix)
   return Val_unit;
 }
 
-CAMLprim value ocaml_glpk_simplex(value blp)
+static int msg_level_table[] = {GLP_MSG_OFF, GLP_MSG_ERR, GLP_MSG_ON, GLP_MSG_ALL};
+
+CAMLprim value ocaml_glpk_simplex(value blp, value param)
 {
   CAMLparam1(blp);
+  CAMLlocal1(field);
   glp_prob *lp = Prob_val(blp);
+  glp_smcp p;
   int ret;
+  int i=0;
+
+  glp_init_smcp(&p);
+  field = Field(param, i++);
+  if (Is_block(field)) p.msg_lev = msg_level_table[Int_val(Field(field, 0))];
+  field = Field(param, i++);
+  if (Is_block(field)) p.tm_lim = Int_val(Field(field, 0));
 
   caml_enter_blocking_section();
-  ret = glp_simplex(lp, NULL); // TODO: control parameters
+  ret = glp_simplex(lp, &p);
   caml_leave_blocking_section();
 
   raise_on_error(ret);
@@ -338,7 +350,7 @@ CAMLprim value ocaml_glpk_interior(value blp)
   int ret;
 
   caml_enter_blocking_section();
-  ret = glp_interior(lp, NULL); //TODO: parameters
+  ret = glp_interior(lp, NULL); // TODO: parameters
   caml_leave_blocking_section();
 
   raise_on_error(ret);
@@ -361,14 +373,23 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
   return Val_unit;
 }
 
-CAMLprim value ocaml_glpk_intopt(value blp)
+CAMLprim value ocaml_glpk_intopt(value blp, value param)
 {
   CAMLparam1(blp);
+  CAMLlocal1(field);
   glp_prob *lp = Prob_val(blp);
+  glp_iocp p;
   int ret;
+  int i=0;
+
+  glp_init_iocp(&p);
+  field = Field(param, i++);
+  if (Is_block(field)) p.msg_lev = msg_level_table[Int_val(Field(field, 0))];
+  field = Field(param, i++);
+  if (Is_block(field)) p.tm_lim = Int_val(Field(field, 0));
 
   caml_enter_blocking_section();
-  ret = glp_intopt(lp, NULL); // TODO: parameters
+  ret = glp_intopt(lp, &p);
   caml_leave_blocking_section();
 
   raise_on_error(ret);
