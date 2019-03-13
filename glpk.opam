@@ -1,5 +1,5 @@
 opam-version: "2.0"
-version: "0.1.8"
+version: "dev"
 maintainer: "Samuel Mimram <smimram@gmail.com>"
 authors: "Samuel Mimram <smimram@gmail.com>"
 homepage: "http://smimram.github.io/ocaml-glpk/"
@@ -16,15 +16,9 @@ depexts: [
   ["libglpk-dev"] {os-distribution = "ubuntu"}
   ["homebrew/science/glpk"] {os = "macos" & os-distribution = "homebrew"}
 ]
-synopsis: "Bindings for glpk"
+synopsis: "Bindings for GLPK"
 description: """
 ocaml-glpk are OCaml bindings to GLPK (GNU Linear Programming Kit)
 which is a package intended for solving large-scale linear programming
 (LP), mixed integer programming (MIP), and other related problems. The
 library is released under the GPL license (like GLPK itself)."""
-flags: light-uninstall
-url {
-  src:
-    "https://github.com/smimram/ocaml-glpk/releases/download/0.1.8/ocaml-glpk-0.1.8.tar.gz"
-  checksum: "md5=d760f081a25259fb0c79175bcb51d6cd"
-}
