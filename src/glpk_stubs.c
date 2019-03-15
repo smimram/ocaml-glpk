@@ -272,7 +272,7 @@ static int msg_level_table[] = {GLP_MSG_OFF, GLP_MSG_ERR, GLP_MSG_ON, GLP_MSG_AL
 
 CAMLprim value ocaml_glpk_simplex(value blp, value param)
 {
-  CAMLparam1(blp);
+  CAMLparam2(blp, param);
   CAMLlocal1(field);
   glp_prob *lp = Prob_val(blp);
   glp_smcp p;
@@ -375,7 +375,7 @@ CAMLprim value ocaml_glpk_set_col_kind(value blp, value n, value kind)
 
 CAMLprim value ocaml_glpk_intopt(value blp, value param)
 {
-  CAMLparam1(blp);
+  CAMLparam2(blp, param);
   CAMLlocal1(field);
   glp_prob *lp = Prob_val(blp);
   glp_iocp p;
@@ -431,7 +431,6 @@ CAMLprim value ocaml_glpk_mip_status(value blp)
 
 CAMLprim value ocaml_glpk_read_cplex(value fname)
 {
-  
   glp_prob *lp = glp_create_prob();
   int ret = glp_read_lp(lp, NULL, String_val(fname));
   if (!ret) caml_failwith("Error while reading data in CPLEX LP format.");
