@@ -9,6 +9,7 @@ bug-reports: "https://github.com/smimram/ocaml-glpk/issues"
 build: [
   ["dune" "build" "@install" "-p" name "-j" jobs]
   ["dune" "build" "@doc" "-p" name "-j" jobs] {with-doc}
+  [make "-C" "examples"] {with-test}
 ]
 depends: ["ocaml" "dune"]
 depexts: [
