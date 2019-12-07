@@ -1,6 +1,6 @@
 (*
  * ocaml-glpk - OCaml bindings to glpk
- * Copyright (C) 2004-2006 Samuel Mimram
+ * Copyright (C) 2004-2019 Samuel Mimram
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,34 +26,18 @@ type aux_var_type = Free_var | Lower_bounded_var | Upper_bounded_var | Double_bo
 
 type prob_class = Linear_prog | Mixed_integer_prog
 
-type var_kind = Continuous_var | Integer_var
+type var_kind = Continuous_var | Integer_var | Boolean_var
 
-exception Fault
-exception Lower_limit
-exception Upper_limit
-exception No_primal_feasible_solution
-exception No_dual_feasible_solution
-exception Iteration_limit
+type status = Optimal | Feasible | Infeasible | No_feasible | Unbounded | Undefined
+
+type message_level = Msg_off | Msg_err | Msg_on | Msg_all
+
 exception Time_limit
-exception Solver_failure
-exception Empty
-exception Bad_basis
-exception No_convergence
-exception Unknown_error
+exception Unknown_error of int
 
-let _ =
-  Callback.register_exception "ocaml_glpk_exn_fault" Fault;
-  Callback.register_exception "ocaml_glpk_exn_objll" Lower_limit;
-  Callback.register_exception "ocaml_glpk_exn_objul" Upper_limit;
-  Callback.register_exception "ocaml_glpk_exn_nopfs" No_primal_feasible_solution;
-  Callback.register_exception "ocaml_glpk_exn_nodfs" No_dual_feasible_solution;
-  Callback.register_exception "ocaml_glpk_exn_itlim" Iteration_limit;
-  Callback.register_exception "ocaml_glpk_exn_tmlim" Time_limit;
-  Callback.register_exception "ocaml_glpk_exn_sing" Solver_failure;
-  Callback.register_exception "ocaml_glpk_exn_empty" Empty;
-  Callback.register_exception "ocaml_glpk_exn_badb" Bad_basis;
-  Callback.register_exception "ocaml_glpk_exn_noconv" No_convergence;
-  Callback.register_exception "ocaml_glpk_exn_unkown" Unknown_error;
+let () =
+  Callback.register "ocaml_glpk_exn_time_limit" Time_limit;
+  Callback.register_exception "ocaml_glpk_exn_unknown" (Unknown_error 0)
 
 external new_problem : unit -> lp = "ocaml_glpk_new_prob"
 
@@ -91,7 +75,17 @@ external load_matrix : lp -> float array array -> unit = "ocaml_glpk_load_matrix
 
 external load_sparse_matrix : lp -> ((int * int) * float) array -> unit = "ocaml_glpk_load_sparse_matrix"
 
-external simplex : lp -> unit = "ocaml_glpk_simplex"
+type simplex_param =
+  {
+    message_level : message_level option;
+    time_limit : int option;
+  }
+
+external simplex : lp -> simplex_param -> unit = "ocaml_glpk_simplex"
+
+let simplex ?message_level ?time_limit lp =
+  let p = { message_level; time_limit } in
+  simplex lp p
 
 external get_obj_val : lp -> float = "ocaml_glpk_get_obj_val"
 
@@ -145,42 +139,30 @@ external unscale_problem : lp -> unit = "ocaml_glpk_unscale_problem"
 
 external interior : lp -> unit = "ocaml_glpk_interior"
 
-external set_class : lp -> prob_class -> unit = "ocaml_glpk_set_class"
-
-external get_class : lp -> prob_class = "ocaml_glpk_get_class"
-
 external set_col_kind : lp -> int -> var_kind -> unit = "ocaml_glpk_set_col_kind"
-
-external branch_and_bound : lp -> unit = "ocaml_glpk_integer"
-
-external branch_and_bound_opt : lp -> unit = "ocaml_glpk_integer"
 
 external warm_up : lp -> unit = "ocaml_glpk_warm_up"
 
-external use_presolver : lp -> bool -> unit = "ocaml_glpk_set_use_presolver"
+type intopt_param =
+  {
+    message_level : message_level option;
+    time_limit : int option;
+  }
+
+external branch_and_cut : lp -> intopt_param -> unit = "ocaml_glpk_intopt"
+
+let branch_and_cut ?message_level ?time_limit lp =
+  let p = { message_level; time_limit } in
+  branch_and_cut lp p
+
+external mip_status : lp -> status = "ocaml_glpk_mip_status"
+
+external mip_obj_val : lp -> float = "ocaml_glpk_mip_obj_val"
+
+external mip_row_val : lp -> int -> float = "ocaml_glpk_mip_row_val"
+
+external mip_col_val : lp -> int -> float = "ocaml_glpk_mip_col_val"
 
 external read_cplex : string -> lp = "ocaml_glpk_read_cplex"
 
 external write_cplex : lp -> string -> unit = "ocaml_glpk_write_cplex"
-
-external set_simplex_iteration_count : lp -> int -> unit = "ocaml_glpk_set_iteration_count"
-
-let reset_simplex_iteration_count lp =
-  set_simplex_iteration_count lp 0
-
-external get_simplex_iteration_count : lp -> int = "ocaml_glpk_get_iteration_count"
-
-external _set_message_level : lp -> int -> unit = "ocaml_glpk_set_message_level"
-
-let set_message_level lp n =
-    if (n < 0 && n > 3) then
-        raise (Invalid_argument "set_message_level");
-    _set_message_level lp n
-
-external set_simplex_iteration_limit : lp -> int -> unit = "ocaml_glpk_set_iteration_limit"
-
-external get_simplex_iteration_limit : lp -> int = "ocaml_glpk_get_iteration_limit"
-
-external set_simplex_time_limit : lp -> float -> unit = "ocaml_glpk_set_time_limit"
-
-external get_simplex_time_limit : lp -> float = "ocaml_glpk_get_time_limit"

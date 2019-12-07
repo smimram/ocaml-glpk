@@ -10,7 +10,7 @@ clean:
 doc:
 	@dune build @doc
 
-example: build
+examples: build
 	@dune exec examples/example.exe
 
 install: build
