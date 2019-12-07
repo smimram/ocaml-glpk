@@ -4,6 +4,7 @@ addons:
   apt:
     packages:
     - ocaml-nox
+    - dune
     - libglpk-dev
 
-script: make
+script: make && make -C examples
