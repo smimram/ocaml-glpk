@@ -1,5 +1,7 @@
-0.1.9 (unreleased)
+0.2.0 (unreleased)
 =====
+* Adapt to new glpk API, thus many backward incompatible changes, sorry.
+* Switch build system to dune.
 
 0.1.8 (2016-11-13)
 =====
